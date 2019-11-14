@@ -1,0 +1,13 @@
+Finite State Machine :
+	start,	0,	first,	0
+	first,	0,	first,	0
+	first,	1,	second,	0
+	second,	1,	start,	1
+	second,	0,	delay,	0
+	delay,	0,	delay,	0
+	delay,	1,	success,	1
+	success,	0,	delay,	0
+	success,	1,	start,	1	
+Set of Sequences :
+
+Information of Sequences :

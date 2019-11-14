@@ -1,0 +1,241 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import dk.brics.automaton.Automaton;
+import dk.brics.automaton.RegExp;
+
+public class SequenceBuilder {
+
+	private static HashSet<String> sequences = new HashSet<>();
+
+	/**
+	 * Function that builds the couples of the messages, for pairwise testing
+	 * 
+	 * @param msgList : the list of the possible messages
+	 * @return the list containing the couples of the possible messages, for
+	 *         pairwise testing
+	 */
+	public static ArrayList<MsgPair<String, String>> getMsgCouples(ArrayList<String> msgList,
+			BiMap<String, Character> msgsMapping) {
+		ArrayList<MsgPair<String, String>> msgCouples = new ArrayList<>();
+		/*
+		 * Double "for" cycle, to build all the possible couples
+		 */
+		for (int i = 0; i < msgList.size(); i++) {
+			for (int j = 0; j < msgList.size(); j++) {
+				if (i != j || ConfigurationData.ALLOW_REPETITIONS_IN_COUPLES)
+					msgCouples.add(new MsgPair<String, String>(msgsMapping.get(msgList.get(i).toUpperCase()).toString(),
+							msgsMapping.get(msgList.get(j).toUpperCase()).toString()));
+			}
+		}
+
+		// Random sort has proved to be more efficient in terms of duration of the
+		// collecting operation
+		Collections.shuffle(msgCouples);
+		return msgCouples;
+	}
+
+	/**
+	 * Function that builds the triads of the messages, for 3-wise testing
+	 * 
+	 * @param msgList : the list of the possible messages
+	 * @return the list containing the couples of the possible messages, for
+	 *         pairwise testing
+	 */
+	public static ArrayList<MsgTriad<String, String, String>> getMsgTriads(ArrayList<String> msgList,
+			BiMap<String, Character> msgsMapping) {
+		ArrayList<MsgTriad<String, String, String>> msgTriads = new ArrayList<>();
+		/*
+		 * Double "for" cycle, to build all the possible couples
+		 */
+		for (int i = 0; i < msgList.size(); i++) {
+			for (int j = 0; j < msgList.size(); j++) {
+				for (int k = 0; k < msgList.size(); k++) {
+					if ((i != j && i != k && k != j) || ConfigurationData.ALLOW_REPETITIONS_IN_COUPLES)
+						msgTriads.add(new MsgTriad<String, String, String>(
+								msgsMapping.get(msgList.get(i).toUpperCase()).toString(),
+								msgsMapping.get(msgList.get(j).toUpperCase()).toString(),
+								msgsMapping.get(msgList.get(k).toUpperCase()).toString()));
+				}
+			}
+		}
+
+		// Random sort has proved to be more efficient in terms of duration of the
+		// collecting operation
+		Collections.shuffle(msgTriads);
+		return msgTriads;
+	}
+
+	/**
+	 * Function that creates a single automaton for the recognition of each couple.
+	 * The automaton has to be able to recognize the string composed by "FIRST -
+	 * SECOND"
+	 * 
+	 * @param coupleList : the list of all the possible couples
+	 * @return the list of all the automatons A(P_i)
+	 */
+	public static ArrayList<Automaton> getAutomatonList(ArrayList<MsgPair<String, String>> coupleList) {
+		ArrayList<Automaton> automatonList = new ArrayList<>();
+		for (MsgPair<String, String> m : coupleList) {
+			String msg = m.toString().replace(")", "").replace("(", "");
+			String notSecond = "";
+			if (ConfigurationData.NOT_SECOND)
+				notSecond = "[^" + msg.split(" - ")[1] + "]*";
+			else
+				notSecond = ConfigurationData.ANY_CHAR;
+			RegExp rex = new RegExp(notSecond + msg.split(" - ")[0] + ConfigurationData.ANY_CHAR + msg.split(" - ")[1]
+					+ ConfigurationData.ANY_CHAR);
+			automatonList.add(rex.toAutomaton());
+		}
+		return automatonList;
+	}
+
+	/**
+	 * Function that creates a single automaton for the recognition of each triads.
+	 * The automaton has to be able to recognize the string composed by "FIRST -
+	 * SECOND - THIRD"
+	 * 
+	 * @param triadsList : the list of all the possible triads
+	 * @return the list of all the automatons A(P_i)
+	 */
+	public static ArrayList<Automaton> getAutomatonListForTriads(
+			ArrayList<MsgTriad<String, String, String>> triadsList) {
+		ArrayList<Automaton> automatonList = new ArrayList<>();
+		for (MsgTriad<String, String, String> m : triadsList) {
+			String msg = m.toString().replace(")", "").replace("(", "");
+			String notSecond = "";
+			if (ConfigurationData.NOT_SECOND)
+				notSecond = "[^(" + msg.split(" - ")[1] + "|" + msg.split(" - ")[2] + ")]*";
+			else
+				notSecond = ConfigurationData.ANY_CHAR;
+			RegExp rex = new RegExp(notSecond + msg.split(" - ")[0] + ConfigurationData.ANY_CHAR + msg.split(" - ")[1]
+					+ ConfigurationData.ANY_CHAR + msg.split(" - ")[2] + ConfigurationData.ANY_CHAR);
+			automatonList.add(rex.toAutomaton());
+		}
+		return automatonList;
+	}
+
+	/**
+	 * Function that combines the previous three functions to build the list of the
+	 * automatons for each T-combination recognition
+	 * 
+	 * @return the list of all the automatons A(P_i)
+	 * @throws IOException
+	 */
+	public static ArrayList<Automaton> getAutomatonListForTRecognition(BiMap<String, Character> msgsMapping)
+			throws IOException {
+		return ConfigurationData.TEST_STRENGHT == Strength.PAIR_WISE
+				? getAutomatonList(getMsgCouples(Utils.getAntidoteMessages(), msgsMapping))
+				: getAutomatonListForTriads(getMsgTriads(Utils.getAntidoteMessages(), msgsMapping));
+	}
+
+	/**
+	 * Function to create the file containing the sequence of messages to be tested
+	 * on ProTest
+	 * 
+	 * @param collectingResult
+	 * @param msgsMapping
+	 * @throws IOException
+	 */
+	public static void createMessageSequences(ArrayList<String> collectingResult, BiMap<String, Character> msgsMapping,
+			boolean append) throws IOException {
+		FileWriter fout = new FileWriter(new File(ConfigurationData.SEQ_FILE).getAbsolutePath(), append);
+
+		// Write the converted sequences to the file
+		for (String msg : collectingResult) {
+			String str = msg;
+			String msgOut = "";
+			// Substitute each char of the sequence
+			for (int i = 0; i < str.length(); i++)
+				msgOut = msgOut + msgsMapping.inverse().get(str.charAt(i)) + " ";
+
+			fout.write(msgOut.toLowerCase() + "\n");
+		}
+
+		fout.close();
+	}
+
+	public static void main(String[] args) {
+
+		for (ConfigurationData.AUTOMATONS_PER_BATCH = ConfigurationData.AUTOMATONS_PER_BATCH_MIN; ConfigurationData.AUTOMATONS_PER_BATCH <= ConfigurationData.AUTOMATONS_PER_BATCH_MAX; ConfigurationData.AUTOMATONS_PER_BATCH++) {
+
+			BiMap<String, Character> msgsMapping = HashBiMap.create();
+			ArrayList<Automaton> automatonListForTRecognition = new ArrayList<>();
+			Automaton fullSystemAutomaton = new Automaton();
+			long start = System.currentTimeMillis();
+
+			try {
+				fullSystemAutomaton = FSMAutomatonBuilder.buildFSMAutomaton(msgsMapping);
+				// List of the Automatons for the recognition of each T-Combination
+				automatonListForTRecognition = getAutomatonListForTRecognition(msgsMapping);
+
+				if (ConfigurationData.MODALITY == Mode.ONLY_CONSTRAINT) {
+					// Collecting and Conversion into the message format
+					sequences = new HashSet<String>(
+							Utils.collecting(fullSystemAutomaton, automatonListForTRecognition));
+					createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
+				}
+
+				if (ConfigurationData.MODALITY == Mode.STANDARD_CIT) {
+					sequences = new HashSet<String>(Utils.sequencesStandardCIT(automatonListForTRecognition));
+					createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
+				}
+
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+			for (String s : sequences)
+				System.out.println(s + " ");
+
+			FileWriter fout;
+			try {
+				fout = new FileWriter(
+						new File(ConfigurationData.RESULTS_FILE + "_" + ConfigurationData.AUTOMATONS_PER_BATCH + "_"
+								+ ConfigurationData.TEST_STRENGHT + ".txt").getAbsolutePath(),
+						false);
+				fout.write("==SUMMARY DATA==\n\n");
+				fout.write("Sequence generation method: " + ConfigurationData.MODALITY.toString() + "\n");
+				fout.write("Sequence repairing method: " + (ConfigurationData.MODALITY == Mode.STANDARD_CIT
+						? ConfigurationData.REPAIR_MODALITY.toString()
+						: "NONE") + "\n");
+				fout.write("Monitoring enabled: " + ConfigurationData.MONITORING_ENABLED + "\n");
+				fout.write("-----");
+				fout.write("Automatons per batch: " + ConfigurationData.AUTOMATONS_PER_BATCH + "\n");
+				fout.write("Total number of transitions: " + fullSystemAutomaton.getNumberOfTransitions() + "\n");
+				fout.write("Total number of states: " + fullSystemAutomaton.getNumberOfStates() + "\n");
+				fout.write("Total number of events: " + (msgsMapping.containsKey("NO RESPONSE") ? msgsMapping.size()-1 : msgsMapping.size()) + "\n");
+				fout.write("Total number of "
+						+ ((ConfigurationData.TEST_STRENGHT == Strength.PAIR_WISE) ? "pairs" : "triads") + ": "
+						+ automatonListForTRecognition.size() + "\n");
+				fout.write("-----");
+				fout.write("Number of sequences: " + sequences.size() + "\n");
+				fout.write("Max sequence length: " + Utils.getLength(sequences, Length.MAX) + "\n");
+				fout.write("Min sequence length: " + Utils.getLength(sequences, Length.MIN) + "\n");
+				fout.write("Avg sequence length: " + Utils.getLength(sequences, Length.AVG) + "\n");
+				fout.write("Total sequence length: " + Utils.getLength(sequences, Length.TOTAL) + "\n");
+				fout.write("Number of valid sequences: "
+						+ Utils.getNumberOfValidSequences(sequences, fullSystemAutomaton) + "\n");
+				fout.write("Number of covered "
+						+ ((ConfigurationData.TEST_STRENGHT == Strength.PAIR_WISE) ? "pairs" : "triads") + ": "
+						+ Utils.getNumberOfTCombinationCovered(sequences, automatonListForTRecognition,
+								fullSystemAutomaton)
+						+ "\n");
+				fout.write("Number of covered states: " + Utils.getNumberOfStatesCovered(sequences, fullSystemAutomaton)
+						+ "\n");
+				fout.write("Number of covered transitions: "
+						+ Utils.getNumberOfTransitionsCovered(sequences, fullSystemAutomaton) + "\n");
+				fout.write("Generation time [s]: " + ((System.currentTimeMillis() - start) / 1000F));
+				fout.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+}

@@ -1,0 +1,1 @@
+Recognition of the pattern 01[0*]1

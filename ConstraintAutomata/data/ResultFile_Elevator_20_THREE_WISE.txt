@@ -1,0 +1,20 @@
+==SUMMARY DATA==
+
+Sequence generation method: ONLY_CONSTRAINT
+Sequence repairing method: NONE
+Monitoring enabled: true
+-----Automatons per batch: 20
+Total number of transitions: 6
+Total number of states: 4
+Total number of events: 8
+Total number of triads: 512
+-----Number of sequences: 7
+Max sequence length: 17
+Min sequence length: 8
+Avg sequence length: 13
+Total sequence length: 91
+Number of valid sequences: 7
+Number of covered triads: 125
+Number of covered states: 4
+Number of covered transitions: 6
+Generation time [s]: 4.582

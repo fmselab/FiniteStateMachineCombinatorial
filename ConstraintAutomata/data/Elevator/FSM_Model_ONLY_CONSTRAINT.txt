@@ -1,0 +1,10 @@
+Finite State Machine :
+	idle,	elevator_call_different_floor,	move_to_floor,	no response
+	idle,	elevator_call_same_floor,	open_door,	floor_door_open
+	move_to_floor,	floor_reached,	open_door,	floor_door_open
+	open_door,	destinatination_select,	close_door,	floor_door_close_and_move
+	open_door,	timeout,	idle,	floor_door_close
+	close_door,	floor_reached,	open_door,	floor_door_open	
+Set of Sequences :
+
+Information of Sequences :

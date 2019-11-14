@@ -1,0 +1,19 @@
+==SUMMARY DATA==
+
+Automatons per batch: 1
+Sequence generation method: STANDARD_CIT
+Monitoring enabled: true
+Sequence repairing method: REJECT_NOT_VALID
+Total number of states: 5
+Total number of transitions: 65
+Total number of couples: 529
+Number of covered couples: 49
+Number of sequences: 177
+Max sequence length: 6
+Min sequence length: 2
+Avg sequence length: 5
+Total sequence length: 980
+Number of valid sequences: 5
+Number of covered states: 4
+Number of covered transitions: 16
+Elapsed time [s]: 1.917
