@@ -18,7 +18,7 @@ public class ConfigurationData {
 	
 	public final static int MAX_STATES = 150000;
 	
-	public final static boolean MONITORING_ENABLED=true;
+	public final static boolean MONITORING_ENABLED=false;
 	
 	public final static boolean ALLOW_REPETITIONS_IN_COUPLES=true;
 	
@@ -26,14 +26,14 @@ public class ConfigurationData {
 	public final static boolean NOT_SECOND = false;
 	
 	public final static Mode MODALITY = Mode.STANDARD_CIT;
-	public final static ReparationMode REPAIR_MODALITY = ReparationMode.SKIP_ERROR;
+	public final static ReparationMode REPAIR_MODALITY = ReparationMode.REJECT_NOT_VALID;
 	
 	public final static boolean USE_MULTITHREAD = true;
 	// Use BATCH_PROCESSING=TRUE with MULTITHREAD enabled to avoid GC Overhead
 	public final static boolean BATCH_PROCESSING = true;
 	public static int AUTOMATONS_PER_BATCH = 10;
-	public final static int AUTOMATONS_PER_BATCH_MIN = 20;
-	public final static int AUTOMATONS_PER_BATCH_MAX = 20;
+	public final static int AUTOMATONS_PER_BATCH_MIN = 10;
+	public final static int AUTOMATONS_PER_BATCH_MAX = 10;
 	
 	// Set LIMIT = 0 to use all the couples
 	public final static int LIMIT = 0;
