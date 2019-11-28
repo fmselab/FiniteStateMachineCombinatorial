@@ -1,6 +1,6 @@
 
 public class ConfigurationData {
-	public final static String PROJECT_NAME = "Vault";
+	public final static String PROJECT_NAME = "Elevator";
 	
 	public final static String MESSAGES_FILE = "data/" + PROJECT_NAME + "/Messages.txt";
 	
@@ -11,7 +11,7 @@ public class ConfigurationData {
 	public final static String SCA_FILE = 
 			"data/" + PROJECT_NAME +"/SCA.txt";
 	
-	public final static boolean LOAD_SCA=true;
+	public final static boolean LOAD_SCA=false;
 	
 	public final static String SEQ_FILE = 
 			"data/Sequences.txt";

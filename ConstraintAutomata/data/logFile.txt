@@ -158816,3 +158816,214 @@ Adding new state: fourth_number(5) -> unlocked(no response)
 END: CREATING THE FINAL STATE MACHINE
 ----------------------------------CREATING THE AUTOMATON FROM THE FSM
 ----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle.Idle(char1) -> First_number(no_response)
+Adding new state: First_number.First_number(char2) -> Second_number(no_response)
+Adding new state: Second_number.Second_number(char3) -> Third_number(no_response)
+Adding new state: Third_number.Third_number(char4) -> Fourth_number(no_response)
+Adding new state: Fourth_number.Fourth_number(char5) -> unlocked(no_response)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle.Idle(char1) -> First_number(no_response)
+Adding new state: First_number.First_number(char2) -> Second_number(no_response)
+Adding new state: Second_number.Second_number(char3) -> Third_number(no_response)
+Adding new state: Third_number.Third_number(char4) -> Fourth_number(no_response)
+Adding new state: Fourth_number.Fourth_number(char5) -> unlocked(no_response)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle.Idle(char1) -> First_number(no_response)
+Adding new state: First_number.First_number(char2) -> Second_number(no_response)
+Adding new state: Second_number.Second_number(char3) -> Third_number(no_response)
+Adding new state: Third_number.Third_number(char4) -> Fourth_number(no_response)
+Adding new state: Fourth_number.Fourth_number(char5) -> unlocked(no_response)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle.Idle(char1) -> First_number(no_response)
+Adding new state: First_number.First_number(char2) -> Second_number(no_response)
+Adding new state: Second_number.Second_number(char3) -> Third_number(no_response)
+Adding new state: Third_number.Third_number(char4) -> Fourth_number(no_response)
+Adding new state: Fourth_number.Fourth_number(char5) -> unlocked(no_response)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle.Idle(char1) -> First_number(no_response)
+Adding new state: First_number.First_number(char2) -> Second_number(no_response)
+Adding new state: Second_number.Second_number(char3) -> Third_number(no_response)
+Adding new state: Third_number.Third_number(char4) -> Fourth_number(no_response)
+Adding new state: Fourth_number.Fourth_number(char5) -> unlocked(no_response)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle.Idle(char1) -> First_number(no_response)
+Adding new state: First_number.First_number(char2) -> Second_number(no_response)
+Adding new state: Second_number.Second_number(char3) -> Third_number(no_response)
+Adding new state: Third_number.Third_number(char4) -> Fourth_number(no_response)
+Adding new state: Fourth_number.Fourth_number(char5) -> unlocked(no_response)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle.Idle(char1) -> First_number(no_response)
+Adding new state: First_number.First_number(char2) -> Second_number(no_response)
+Adding new state: Second_number.Second_number(char3) -> Third_number(no_response)
+Adding new state: Third_number.Third_number(char4) -> Fourth_number(no_response)
+Adding new state: Fourth_number.Fourth_number(char5) -> unlocked(no_response)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(char1) -> First_number(no_response)
+Adding new state: First_number(char2) -> Second_number(no_response)
+Adding new state: Second_number(char3) -> Third_number(no_response)
+Adding new state: Third_number(char4) -> Fourth_number(no_response)
+Adding new state: Fourth_number(char5) -> unlocked(no_response)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(char1) -> First_number(no_response)
+Adding new state: First_number(char2) -> Second_number(no_response)
+Adding new state: Second_number(char3) -> Third_number(no_response)
+Adding new state: Third_number(char4) -> Fourth_number(no_response)
+Adding new state: Fourth_number(char5) -> unlocked(no_response)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(char1) -> First_number(no_response)
+Adding new state: First_number(char2) -> Second_number(no_response)
+Adding new state: Second_number(char3) -> Third_number(no_response)
+Adding new state: Third_number(char4) -> Fourth_number(no_response)
+Adding new state: Fourth_number(char5) -> unlocked(no_response)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Open_door(destinatination_select) -> Close_door(floor_door_close_and_move)
+Adding new state: Idle(elevator_call_different_floor) -> Move_to_floor(no_response)
+Adding new state: Idle(elevator_call_same_floor) -> Open_door(floor_door_open)
+Adding new state: Close_door(floor_reached) -> Open_door(floor_door_open)
+Adding new state: Open_door(timeout) -> Idle(floor_door_close)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Open_door(destinatination_select) -> Close_door(floor_door_close_and_move)
+Adding new state: Idle(elevator_call_different_floor) -> Move_to_floor(no_response)
+Adding new state: Idle(elevator_call_same_floor) -> Open_door(floor_door_open)
+Adding new state: Close_door(floor_reached) -> Open_door(floor_door_open)
+Adding new state: Open_door(timeout) -> Idle(floor_door_close)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Open_door(destinatination_select) -> Close_door(floor_door_close_and_move)
+Adding new state: Idle(elevator_call_different_floor) -> Move_to_floor(no_response)
+Adding new state: Idle(elevator_call_same_floor) -> Open_door(floor_door_open)
+Adding new state: Close_door(floor_reached) -> Open_door(floor_door_open)
+Adding new state: Open_door(timeout) -> Idle(floor_door_close)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Open_door(destinatination_select) -> Close_door(floor_door_close_and_move)
+Adding new state: Idle(elevator_call_different_floor) -> Move_to_floor(no_response)
+Adding new state: Idle(elevator_call_same_floor) -> Open_door(floor_door_open)
+Adding new state: Close_door(floor_reached) -> Open_door(floor_door_open)
+Adding new state: Open_door(timeout) -> Idle(floor_door_close)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Open_door(destinatination_select) -> Close_door(floor_door_close_and_move)
+Adding new state: Idle(elevator_call_different_floor) -> Move_to_floor(no_response)
+Adding new state: Idle(elevator_call_same_floor) -> Open_door(floor_door_open)
+Adding new state: Close_door(floor_reached) -> Open_door(floor_door_open)
+Adding new state: Open_door(timeout) -> Idle(floor_door_close)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Open_door(destinatination_select) -> Close_door(floor_door_close_and_move)
+Adding new state: Idle(elevator_call_different_floor) -> Move_to_floor(no_response)
+Adding new state: Idle(elevator_call_same_floor) -> Open_door(floor_door_open)
+Adding new state: Close_door(floor_reached) -> Open_door(floor_door_open)
+Adding new state: Open_door(timeout) -> Idle(floor_door_close)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Success(char0) -> Delay(reject)
+Adding new state: Success(char1) -> Start(accept)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Success(char0) -> Delay(reject)
+Adding new state: Success(char1) -> Start(accept)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Success(char0) -> Delay(reject)
+Adding new state: Success(char1) -> Start(accept)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Success(char0) -> Delay(reject)
+Adding new state: Success(char1) -> Start(accept)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Start(char0) -> First(reject)
+Adding new state: First(char0) -> First(reject)
+Adding new state: First(char1) -> Second(accept)
+Adding new state: Second(char1) -> Start(accept)
+Adding new state: Second(char0) -> Delay(reject)
+Adding new state: Delay(char0) -> Delay(reject)
+Adding new state: Delay(char1) -> Success(accept)
+Adding new state: Success(char0) -> Delay(reject)
+Adding new state: Success(char1) -> Start(accept)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(elevator_call_different_floor) -> Move_to_floor(no_response)
+Adding new state: Idle(elevator_call_same_floor) -> Open_door(floor_door_open)
+Adding new state: Move_to_floor(floor_reached) -> Open_door(floor_door_open)
+Adding new state: Open_door(destinatination_select) -> Close_door(floor_door_close_and_move)
+Adding new state: Open_door(timeout) -> Idle(floor_door_close)
+Adding new state: Close_door(floor_reached) -> Open_door(floor_door_open)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(elevator_call_different_floor) -> Move_to_floor(no_response)
+Adding new state: Idle(elevator_call_same_floor) -> Open_door(floor_door_open)
+Adding new state: Move_to_floor(floor_reached) -> Open_door(floor_door_open)
+Adding new state: Open_door(destinatination_select) -> Close_door(floor_door_close_and_move)
+Adding new state: Open_door(timeout) -> Idle(floor_door_close)
+Adding new state: Close_door(floor_reached) -> Open_door(floor_door_open)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(elevator_call_different_floor) -> Move_to_floor(no_response)
+Adding new state: Idle(elevator_call_same_floor) -> Open_door(floor_door_open)
+Adding new state: Move_to_floor(floor_reached) -> Open_door(floor_door_open)
+Adding new state: Open_door(destinatination_select) -> Close_door(floor_door_close_and_move)
+Adding new state: Open_door(timeout) -> Idle(floor_door_close)
+Adding new state: Close_door(floor_reached) -> Open_door(floor_door_open)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM

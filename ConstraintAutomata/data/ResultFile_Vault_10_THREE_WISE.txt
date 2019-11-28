@@ -1,0 +1,21 @@
+==SUMMARY DATA==
+
+Sequence generation method: STANDARD_CIT
+Sequence repairing method: STOP_AT_ERROR
+Monitoring enabled: true
+-----Automatons per batch: 10
+Total number of transitions: 5
+Total number of states: 6
+Total number of events: 5
+Total number of triads: 125
+Total number of valid triads: 10
+-----Number of sequences: 11
+Max sequence length: 11
+Min sequence length: 8
+Avg sequence length: 9
+Total sequence length: 109
+Number of valid sequences: 0
+Number of covered triads: 0
+Number of covered states: 2
+Number of covered transitions: 1
+Generation time [s]: 8.014

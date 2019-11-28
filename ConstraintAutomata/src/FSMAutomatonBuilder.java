@@ -17,7 +17,9 @@ import dk.brics.automaton.Automaton;
 import dk.brics.automaton.State;
 import dk.brics.automaton.Transition;
 import net.sf.smc.model.SmcFSM;
+import net.sf.smc.model.SmcGuard;
 import net.sf.smc.model.SmcMap;
+import net.sf.smc.model.SmcState;
 import net.sf.smc.model.SmcTransition;
 import net.sf.smc.model.TargetLanguage;
 import net.sf.smc.parser.SmcParser;
@@ -119,19 +121,22 @@ public class FSMAutomatonBuilder {
 		flog.write("CREATING THE FINAL STATE MACHINE\n");
 		flog.write("----------------------------------");
 		
-		for (SmcMap s : stateMaps) {
-			// Get the start state name
-			startState = s.getName();
-			for (SmcTransition t : s.getTransitions()) {
-				inMessage = "";
-				endState = "";
-				outMessage = "";
-				
-				// Save the messages and the FSM
-				msgList.add(inMessage);
-				msgList.add(outMessage);
-				fsm.add(new FSMState(startState, endState, inMessage, outMessage));
-				flog.write("Adding new state: " + startState + "(" + inMessage + ") -> " + endState + "(" + outMessage + ")\n");
+		for (SmcMap s : stateMaps) {	
+			for (SmcState st : s.getStates()) {
+				for (SmcTransition t : st.getTransitions()) {
+					startState = t.getState().getName().toString().split("[.]")[0];
+					for (SmcGuard g : t.getGuards()) {
+						inMessage = g.getName();
+						endState = g.getEndState().split("[.]")[0];
+						outMessage = g.getActions().get(0).getName();
+						
+						// Save the messages and the FSM
+						msgList.add(inMessage);
+						if (!outMessage.equals("no_response")) msgList.add(outMessage);
+						fsm.add(new FSMState(startState, endState, inMessage, outMessage));
+						flog.write("Adding new state: " + startState + "(" + inMessage + ") -> " + endState + "(" + outMessage + ")\n");
+					}
+				}
 			}
 		}
 
