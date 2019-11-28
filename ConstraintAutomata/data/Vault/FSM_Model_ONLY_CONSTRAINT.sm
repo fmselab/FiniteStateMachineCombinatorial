@@ -1,0 +1,26 @@
+%class Vault
+%package vault
+%start MainMap::Idle
+%map MainMap
+%%
+Idle
+{
+	1	First_number	{ no_response(); }
+}
+First_number
+{
+	2	Second_number	{ no_response(); }
+}
+Second_number
+{
+	3	Third_number	{ no_response(); }
+}
+Third_number
+{
+	4	Fourth_number	{ no_response(); }
+}
+Fourth_number
+{
+	5	unlocked	{ no_response(); }
+}
+%%

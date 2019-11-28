@@ -1,10 +1,13 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import com.google.common.collect.BiMap;
 
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.State;
@@ -40,6 +43,42 @@ public class Utils {
 		// Return the list of the messages
 		return msgList;
 	}
+	
+	
+	/**
+	 * Function that loads the SCAs and returns the sequences mapped with letters instead of numbers
+	 * 
+	 * @ returns the list of sequences
+	 */
+	static HashSet<String> mapSCAIntoString(BiMap<String, Character> msgsMapping) throws IOException {
+		String readLn, startState, inMessage, endState, outMessage;
+		File f = new File(ConfigurationData.SCA_FILE);
+		FileReader fin = new FileReader(f.getAbsolutePath());
+		BufferedReader scaFile = new BufferedReader(fin);
+		HashSet<String> msgList = new HashSet<>();
+		char code = 64;
+		
+		/*
+		 * Read the content of the file, and convert the indexes into messages
+		 */
+		while (true) {
+			readLn = null;
+			try {
+				readLn = scaFile.readLine();
+			} catch (IOException e) {
+				break;
+			}
+			if (readLn == null) break;
+			String seq = "";
+			for(String index : readLn.split(",")) {
+				seq = seq + msgsMapping.values().toArray()[Integer.parseInt(index)];
+			}
+			msgList.add(seq);
+		}
+		
+		return msgList;
+	}
+	
 	
 	/**
 	 * Function verifying whether is possible the intersection between two
@@ -104,14 +143,18 @@ public class Utils {
 
 		System.out.println("Total automaton number: " + temp.size());
 
+		System.out.println("FULL SYSTEM: " + fullSystemAutomaton.toDot());
+		
 		while (temp.size() > 0) {
 			Automaton tempFullSystem = fullSystemAutomaton.clone();
 			ArrayList<Automaton> temp2 = (ArrayList<Automaton>) temp.clone();
 			int index = 0;
 			for (Automaton a : temp) {
+				System.out.println("T-WISE AUTOMATON: " + a.toDot());
 				System.out.println("Processing Automaton " + (++index) + " of " + temp.size() + " - #States: "
 						+ tempFullSystem.getNumberOfStates());
 				Automaton intersection = tempFullSystem.intersection(a);
+				System.out.println("INTERSEZIONE: " + intersection.toDot());
 				String shortestExample = intersection.getShortestExample(true);
 				if (shortestExample != null && shortestExample != "") {
 					tempFullSystem = intersection;
@@ -377,5 +420,26 @@ public class Utils {
 		}
 		
 		return tCombinationCovered;
+	}
+
+
+	/**
+	 * Function compute the number of valid T-combination 
+	 * 
+	 * @param automatonListForTRecognition : the list of the automatons for each
+	 *                                        T-combination recognition
+	 * @param fullSystemAutomaton	: the automaton of the full system
+	 * 
+	 * @return the number of valid T-combination
+	 */
+	public static int getNumberOfValidTCombinations(ArrayList<Automaton> automatonListForTRecognition, Automaton fullSystemAutomaton) {
+		int n = 0;
+		
+		for(Automaton a : automatonListForTRecognition) {
+			if (!fullSystemAutomaton.intersection(a).isEmpty())
+				n++;
+		}
+		
+		return n;
 	}
 }

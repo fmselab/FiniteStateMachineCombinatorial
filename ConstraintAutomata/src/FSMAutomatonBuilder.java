@@ -1,9 +1,11 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,10 +16,15 @@ import com.google.common.collect.BiMap;
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.State;
 import dk.brics.automaton.Transition;
+import net.sf.smc.model.SmcFSM;
+import net.sf.smc.model.SmcMap;
+import net.sf.smc.model.SmcTransition;
+import net.sf.smc.model.TargetLanguage;
+import net.sf.smc.parser.SmcParser;
 
 public class FSMAutomatonBuilder {
 
-	static Automaton buildFSMAutomaton(BiMap<String, Character> msgsMapping) throws IOException {
+	static Automaton buildFSMAutomatonFromTXT(BiMap<String, Character> msgsMapping) throws IOException {
 		String readLn, startState, inMessage, endState, outMessage;
 		File f = new File(ConfigurationData.FSM_FILE);
 		FileReader fin = new FileReader(f.getAbsolutePath());
@@ -81,6 +88,69 @@ public class FSMAutomatonBuilder {
 		// Close all the streams
 		fsmFile.close();
 		fin.close();
+		msgFile.close();
+		fout.close();
+		flog.close();
+
+		// Return the built automaton
+		return createAutomatonFromFSM(fsm, msgsMapping);
+	}
+	
+	static Automaton buildFSMAutomatonFromSMC(BiMap<String, Character> msgsMapping) throws IOException, IllegalAccessException, InvocationTargetException {
+		File f = new File(ConfigurationData.FSM_FILE);
+		
+		// Parse the SMC file
+		SmcParser p = new SmcParser(ConfigurationData.PROJECT_NAME, new FileInputStream(f), TargetLanguage.LANG_NOT_SET, false);
+		SmcFSM fsMachine = p.parse();
+		
+		// Get the list of the states
+		ArrayList<SmcMap> stateMaps = (ArrayList<SmcMap>) fsMachine.getMaps();
+		
+		// Create the new automaton
+		HashSet<String> msgList = new HashSet<>();
+		ArrayList<FSMState> fsm = new ArrayList<>();
+		FileWriter fout = new FileWriter(ConfigurationData.MESSAGES_FILE);
+		FileWriter flog = new FileWriter(ConfigurationData.LOG_FILE,true);
+		BufferedWriter msgFile = new BufferedWriter(fout);
+		String startState, inMessage, endState, outMessage;
+		char code = 64;
+
+		flog.write("----------------------------------");
+		flog.write("CREATING THE FINAL STATE MACHINE\n");
+		flog.write("----------------------------------");
+		
+		for (SmcMap s : stateMaps) {
+			// Get the start state name
+			startState = s.getName();
+			for (SmcTransition t : s.getTransitions()) {
+				inMessage = "";
+				endState = "";
+				outMessage = "";
+				
+				// Save the messages and the FSM
+				msgList.add(inMessage);
+				msgList.add(outMessage);
+				fsm.add(new FSMState(startState, endState, inMessage, outMessage));
+				flog.write("Adding new state: " + startState + "(" + inMessage + ") -> " + endState + "(" + outMessage + ")\n");
+			}
+		}
+
+		// Write the messages file and build the mapping between extended messages and
+		// single char
+		for (String s : msgList) {
+			msgFile.write(s.toUpperCase() + "\n");
+			while (code == ')' || code == '(' || code == '*' || code == '?' || code == '&' || code == '|' || code == '+'
+					|| code == '@' || code == '}' || code == '{' || code == '~' || code == '^' || code == '['
+					|| code == ']' || code == '-' || code == '.' || code == '#' || code == '\\' || code == '_'
+					|| code == '<' || code == '>')
+				code++;
+			msgsMapping.put(s.toUpperCase(), code);
+			code++;
+		}
+		
+		flog.write("END: CREATING THE FINAL STATE MACHINE\n");
+
+		// Close all the streams
 		msgFile.close();
 		fout.close();
 		flog.close();

@@ -1,0 +1,1 @@
+Model of a vault unlocked with the combination 12345

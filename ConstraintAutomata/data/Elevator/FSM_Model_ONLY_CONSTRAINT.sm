@@ -1,0 +1,18 @@
+Idle
+{
+	elevator_call_different_floor Move_to_floor { no_response(); }
+	elevator_call_same_floor Open_door { floor_door_open(); }
+}
+Move_to_floor
+{
+	floor_reached Open_door { floor_door_open(); }
+}
+Open_door
+{
+	destinatination_select Close_door { floor_door_close_and_move(); }
+	timeout Idle { floor_door_close(); }
+}
+Close_door
+{
+	floor_reached Open_door { floor_door_open(); }
+}

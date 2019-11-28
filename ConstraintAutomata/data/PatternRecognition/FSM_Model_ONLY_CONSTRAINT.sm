@@ -1,0 +1,24 @@
+Start
+{
+	0 First { reject(); }
+}
+First
+{
+	0 First { reject(); }
+	1 Second { accept(); }
+}
+Second
+{
+	1 Start { accept(); }
+	0 Delay { reject(); }
+}
+Delay
+{
+	0 Delay { reject(); }
+	1 Success { accept(); }
+}
+Success
+{
+	0 Delay { reject(); }
+	1 Start { accept(); }
+}

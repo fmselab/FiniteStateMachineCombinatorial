@@ -37,5 +37,11 @@
 		    <artifactId>guava</artifactId>
 		    <version>28.0-jre</version>
 		</dependency>
+		<dependency>
+		  	<groupId>net.sf.smc</groupId>
+		  	<artifactId>smc</artifactId>
+		  	<version>7.1.0</version>
+		  	<type>pom</type>
+		</dependency>
 	</dependencies>
 </project>

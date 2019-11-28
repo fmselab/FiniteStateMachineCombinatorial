@@ -1,0 +1,9 @@
+Finite State Machine :
+	idle,	1,	first_number,	no response
+	first_number,	2,	second_number,	no response
+	second_number,	3,	third_number,	no response
+	third_number,	4,	fourth_number,	no response
+	fourth_number,	5,	unlocked,	no response
+Set of Sequences :
+
+Information of Sequences :

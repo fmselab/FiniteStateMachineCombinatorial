@@ -170,23 +170,28 @@ public class SequenceBuilder {
 			long start = System.currentTimeMillis();
 
 			try {
-				fullSystemAutomaton = FSMAutomatonBuilder.buildFSMAutomaton(msgsMapping);
+				//fullSystemAutomaton = FSMAutomatonBuilder.buildFSMAutomatonFromTXT(msgsMapping);
+				fullSystemAutomaton = FSMAutomatonBuilder.buildFSMAutomatonFromSMC(msgsMapping);
 				// List of the Automatons for the recognition of each T-Combination
 				automatonListForTRecognition = getAutomatonListForTRecognition(msgsMapping);
 
-				if (ConfigurationData.MODALITY == Mode.ONLY_CONSTRAINT) {
-					// Collecting and Conversion into the message format
-					sequences = new HashSet<String>(
-							Utils.collecting(fullSystemAutomaton, automatonListForTRecognition));
-					createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
+				if (ConfigurationData.LOAD_SCA) {
+					sequences = Utils.mapSCAIntoString(msgsMapping);
 				}
-
-				if (ConfigurationData.MODALITY == Mode.STANDARD_CIT) {
-					sequences = new HashSet<String>(Utils.sequencesStandardCIT(automatonListForTRecognition));
-					createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
+				else {
+					if (ConfigurationData.MODALITY == Mode.ONLY_CONSTRAINT) {
+						// Collecting and Conversion into the message format
+						sequences = new HashSet<String>(
+								Utils.collecting(fullSystemAutomaton, automatonListForTRecognition));
+						createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
+					}
+	
+					if (ConfigurationData.MODALITY == Mode.STANDARD_CIT) {
+						sequences = new HashSet<String>(Utils.sequencesStandardCIT(automatonListForTRecognition));
+						createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
+					}
 				}
-
-			} catch (IOException e1) {
+			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 
@@ -213,6 +218,9 @@ public class SequenceBuilder {
 				fout.write("Total number of "
 						+ ((ConfigurationData.TEST_STRENGHT == Strength.PAIR_WISE) ? "pairs" : "triads") + ": "
 						+ automatonListForTRecognition.size() + "\n");
+				fout.write("Total number of valid "
+						+ ((ConfigurationData.TEST_STRENGHT == Strength.PAIR_WISE) ? "pairs" : "triads") + ": "
+						+ Utils.getNumberOfValidTCombinations(automatonListForTRecognition, fullSystemAutomaton) + "\n");
 				fout.write("-----");
 				fout.write("Number of sequences: " + sequences.size() + "\n");
 				fout.write("Max sequence length: " + Utils.getLength(sequences, Length.MAX) + "\n");
