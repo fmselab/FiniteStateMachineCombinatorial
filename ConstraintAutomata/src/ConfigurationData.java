@@ -1,6 +1,6 @@
 
 public class ConfigurationData {
-	public final static String PROJECT_NAME = "Elevator";
+	public final static String PROJECT_NAME = "PHD";
 	
 	public final static String MESSAGES_FILE = "data/" + PROJECT_NAME + "/Messages.txt";
 	
@@ -31,7 +31,7 @@ public class ConfigurationData {
 	public final static String ANY_CHAR = ".*";
 	public final static boolean NOT_SECOND = false;
 	
-	public final static Mode MODALITY = Mode.STANDARD_CIT;
+	public final static Mode MODALITY = Mode.ONLY_CONSTRAINT;
 	public final static ReparationMode REPAIR_MODALITY = ReparationMode.STOP_AT_ERROR;
 	
 	public final static boolean USE_MULTITHREAD = true;
@@ -45,6 +45,6 @@ public class ConfigurationData {
 	public final static int LIMIT = 0;
 	
 	// Set the strength of the test
-	public final static Strength TEST_STRENGHT = Strength.THREE_WISE;
+	public final static Strength TEST_STRENGHT = Strength.PAIR_WISE;
 	
 }

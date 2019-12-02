@@ -17,8 +17,8 @@ Unassociated
 	rx_rlre	Unassociated	{ no_response(); }
 	rx_abrt	Unassociated	{ no_response(); }
 	rx_roiv_confirmed_event_report	Unassociated	{ rx_abrt(); }
-	rx_aarq_invalid	Unassociated,	{ rx_aare(); }
-	rx_aarq_external	Unassociated,	{ rx_aare(); }
+	rx_aarq_invalid	Unassociated	{ rx_aare(); }
+	rx_aarq_external	Unassociated	{ rx_aare(); }
 }	
 Waiting_for_config
 {
@@ -67,8 +67,8 @@ Operating
 	rx_roer	Operating	{ no_response(); }
 	rx_rorj	Operating	{ no_response(); }
 	rx_rors	Operating	{ rx_abrt(); }
-	rx_rors_confirmed_action	Operating { rx_abrt(); }
-	rx_rors_confirmed_set	Operating { rx_abrt(); }
+	rx_rors_confirmed_action	Operating	{ rx_abrt(); }
+	rx_rors_confirmed_set	Operating	{ rx_abrt(); }
 	rx_rors_get	Operating	{ rx_abrt(); }
 }
 Disassociating
