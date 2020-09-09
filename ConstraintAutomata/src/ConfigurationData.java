@@ -31,7 +31,7 @@ public class ConfigurationData {
 	public final static boolean NOT_SECOND = false;
 	
 	// Sequence generation mode
-	public final static Mode MODALITY = Mode.TRANSITIONS_CIT_COVERAGE;
+	public final static Mode MODALITY = Mode.STATES_COVERAGE;
 	// Reparation mode used when the constraints are not considered during the generation phase
 	public final static ReparationMode REPAIR_MODALITY = ReparationMode.SKIP_ERROR;
 	

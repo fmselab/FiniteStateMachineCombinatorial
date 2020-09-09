@@ -16,6 +16,7 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.GraphTests;
 import org.jgrapht.alg.connectivity.KosarajuStrongConnectivityInspector;
 import org.jgrapht.alg.cycle.ChinesePostman;
+import org.jgrapht.alg.tour.HeldKarpTSP;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -206,8 +207,12 @@ public class SequenceBuilder {
 						createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
 					}
 					
-					if (ConfigurationData.MODALITY == Mode.TRANSITIONS_CIT_COVERAGE) {
+					if (ConfigurationData.MODALITY == Mode.TRANSITIONS_COVERAGE) {
 						sequences = new HashSet<String>(getSequencesForTransitionCoverage("Unassociated"));
+					}
+					
+					if (ConfigurationData.MODALITY == Mode.STATES_COVERAGE) {
+						sequences = new HashSet<String>(getSequencesForStateCoverage("Unassociated"));
 					}
 				}
 			} catch (Exception e1) {
@@ -322,6 +327,45 @@ public class SequenceBuilder {
 			}
 		}
 		return "";
+	}
+	
+	/**
+	 * Merthod used to generate the test sequence that guarantee the State Coverage. 
+	 * It is guaranteed by solving the TravellingSalesmanProblem:
+	 * all the states in a graph must be visited at least once.
+	 * 
+	 * @param fromState is the name of the state from which the test must start.
+	 * @return the ArrrayList containing the test sequence that covers all the transitions in the graph
+	 */
+	private static ArrayList<String> getSequencesForStateCoverage(String fromState) throws IllegalAccessException, InvocationTargetException, IOException {
+		ArrayList<Pair<Integer, String>> msgsIntegerMapping = new ArrayList<>();
+		// Convert the SMC into the corresponding JGraphT
+		Graph<String, Integer> automatonGraph = FSMAutomatonBuilder.convertSMCToGraph(msgsIntegerMapping);		
+		String resultList;
+		ArrayList<String> lst = new ArrayList<String>();
+		
+		// Check if the graph has at least a single vertex since the TSP is solved only for this kind 
+		// of graphs
+		if (automatonGraph.vertexSet().size()>0) {	
+			HeldKarpTSP<String,Integer> visitTSP = new HeldKarpTSP<>();
+			GraphPath<String, Integer> sol = visitTSP.getTour(automatonGraph);
+			
+			// Since we want to start from a specific state, shift the event into the result list
+			resultList = "";
+			List<Integer> edgeList = sol.getEdgeList();
+			List<String> vertexList = sol.getVertexList();			
+			int lastIndexOfUnassociated = vertexList.lastIndexOf(fromState);
+			
+			List<Integer> shiftedEdgeList = edgeList.subList(lastIndexOfUnassociated, edgeList.size());
+			shiftedEdgeList.addAll(edgeList.subList(0, lastIndexOfUnassociated));
+			
+			for (Integer msg : shiftedEdgeList) 
+				resultList += decodeMessage(msg,msgsIntegerMapping) + " ";
+			
+			lst.add(resultList);
+		}	
+		
+		return lst;
 	}
 
 }
