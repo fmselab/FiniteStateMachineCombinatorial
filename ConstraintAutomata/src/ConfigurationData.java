@@ -5,8 +5,7 @@ public class ConfigurationData {
 	public final static String MESSAGES_FILE = "data/" + PROJECT_NAME + "/Messages.txt";
 	
 	public final static String FSM_FILE = 
-			//"data/" + PROJECT_NAME +"/FSM_Model_ONLY_CONSTRAINT.txt";
-			"data/" + PROJECT_NAME +"/FSM_Model_ONLY_CONSTRAINT.sm";
+			"data/" + PROJECT_NAME +"/FSM_Model_ONLY_CONSTRAINT2.sm";
 	
 	public final static String SCA_FILE = 
 			"data/" + PROJECT_NAME +"/SCA.txt";
@@ -31,10 +30,13 @@ public class ConfigurationData {
 	public final static String ANY_CHAR = ".*";
 	public final static boolean NOT_SECOND = false;
 	
-	public final static Mode MODALITY = Mode.ONLY_CONSTRAINT;
-	public final static ReparationMode REPAIR_MODALITY = ReparationMode.STOP_AT_ERROR;
+	// Sequence generation mode
+	public final static Mode MODALITY = Mode.TRANSITIONS_CIT_COVERAGE;
+	// Reparation mode used when the constraints are not considered during the generation phase
+	public final static ReparationMode REPAIR_MODALITY = ReparationMode.SKIP_ERROR;
 	
 	public final static boolean USE_MULTITHREAD = true;
+	
 	// Use BATCH_PROCESSING=TRUE with MULTITHREAD enabled to avoid GC Overhead
 	public final static boolean BATCH_PROCESSING = true;
 	public static int AUTOMATONS_PER_BATCH = 10;

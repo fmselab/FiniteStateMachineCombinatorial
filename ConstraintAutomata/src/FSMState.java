@@ -1,4 +1,13 @@
-
+/**
+ * Class representing the transitions in a FSM. We save, for each transition:
+ *  - startStateName: that is the name of the initial state
+ *  - finalStateName: that is the name of the final state, when executing the transition
+ *  - receivedMsg: that is the message that trigger the transition
+ *  - sentMsg: that is the output event when a transition is executed
+ * 
+ * @author Andrea Bombarda
+ *
+ */
 public class FSMState {
 	private String startStateName;
 	private String finalStateName;

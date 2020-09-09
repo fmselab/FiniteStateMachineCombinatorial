@@ -1,13 +1,28 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+import javafx.util.Pair;
+
+import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
+import org.jgrapht.GraphTests;
+import org.jgrapht.alg.connectivity.KosarajuStrongConnectivityInspector;
+import org.jgrapht.alg.cycle.ChinesePostman;
+
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;
+import dk.brics.automaton.State;
+import dk.brics.automaton.Transition;
 
 public class SequenceBuilder {
 
@@ -190,6 +205,10 @@ public class SequenceBuilder {
 						sequences = new HashSet<String>(Utils.sequencesStandardCIT(automatonListForTRecognition));
 						createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
 					}
+					
+					if (ConfigurationData.MODALITY == Mode.TRANSITIONS_CIT_COVERAGE) {
+						sequences = new HashSet<String>(getSequencesForTransitionCoverage("Unassociated"));
+					}
 				}
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -244,6 +263,65 @@ public class SequenceBuilder {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * Merthod used to generate the test sequence that guarantee the Transition Coverage. 
+	 * It is guaranteed by solving the ChinesePostmanProblem, that is also called Route Inspection Problem:
+	 * all the transitions in a graph must be executed at least once.
+	 * 
+	 * @param fromState is the name of the state from which the test must start.
+	 * @return the ArrrayList containing the test sequence that covers all the transitions in the graph
+	 */
+	private static ArrayList<String> getSequencesForTransitionCoverage(String fromState) throws IllegalAccessException, InvocationTargetException, IOException {
+		ArrayList<Pair<Integer, String>> msgsIntegerMapping = new ArrayList<>();
+		// Convert the SMC into the corresponding JGraphT
+		Graph<String, Integer> automatonGraph = FSMAutomatonBuilder.convertSMCToGraph(msgsIntegerMapping);		
+		String resultList;
+		ArrayList<String> lst = new ArrayList<String>();
+		
+		// Check if the graph is strongly connected and generate the test sequence ->
+		// We must have a Strongly Connected graph since the ChinesePostman problem is solved only for this kind 
+		// of graphs
+		if (GraphTests.isStronglyConnected(automatonGraph)) {	
+			ChinesePostman<String,Integer> visitCFP = new ChinesePostman<>();
+			GraphPath<String, Integer> sol = visitCFP.getCPPSolution(automatonGraph);
+			
+			// Since we want to start from a specific state, shift the event into the result list
+			resultList = "";
+			List<Integer> edgeList = sol.getEdgeList();
+			List<String> vertexList = sol.getVertexList();			
+			int lastIndexOfUnassociated = vertexList.lastIndexOf(fromState);
+			
+			List<Integer> shiftedEdgeList = edgeList.subList(lastIndexOfUnassociated, edgeList.size());
+			shiftedEdgeList.addAll(edgeList.subList(0, lastIndexOfUnassociated));
+			
+			for (Integer msg : shiftedEdgeList) 
+				resultList += decodeMessage(msg,msgsIntegerMapping) + " ";
+			
+			lst.add(resultList);
+		}	
+		
+		return lst;
+	}
+	
+	
+	/**
+	 * Since we had some problem with using Strings for transition, we managed to use Integers numbers instead
+	 * of the string description of the message. Thus we need a function to convert Integers into the corresponding
+	 * String when generating the test sequence
+	 * 
+	 * @param message	: the message to be converted
+	 * @param list		: the list of the mappings 
+	 * @return			the String representing the message
+	 */
+	private static String decodeMessage(Integer message, ArrayList<Pair<Integer, String>> list) {
+		for (int i = 0; i<list.size(); i++) {
+			if (list.get(i).getKey() == message) {
+				return list.get(i).getValue();
+			}
+		}
+		return "";
 	}
 
 }

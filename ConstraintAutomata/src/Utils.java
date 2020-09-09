@@ -5,7 +5,27 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+
+import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
+import org.jgrapht.GraphTests;
+import org.jgrapht.Graphs;
+import org.jgrapht.alg.cycle.HierholzerEulerianCycle;
+import org.jgrapht.alg.interfaces.EulerianCycleAlgorithm;
+import org.jgrapht.alg.interfaces.MatchingAlgorithm;
+import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
+import org.jgrapht.alg.matching.KuhnMunkresMinimalWeightBipartitePerfectMatching;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.alg.util.Pair;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.DirectedPseudograph;
+import org.jgrapht.graph.SimpleWeightedGraph;
+import org.jgrapht.util.SupplierUtil;
 
 import com.google.common.collect.BiMap;
 
@@ -207,20 +227,33 @@ public class Utils {
 			for (String s : seq) {
 				count += s.length();
 			}
-			count /= seq.size();
+			if (seq.size()>0) {
+				count /= seq.size();
+			} else {
+				count = 0;
+			}
 			break;
 		case MAX:
-			count = seq.toArray()[0].toString().length();
-			for (String s : seq) {
-				if (s.length() > count)
-					count = s.length();
+			if (seq.size()>0) {
+				count = seq.toArray()[0].toString().length();
+				for (String s : seq) {
+					if (s.length() > count)
+						count = s.length();
+				}
+			} else {
+				count = 0;
 			}
 			break;
 		case MIN:
-			count = seq.toArray()[0].toString().length();
-			for (String s : seq) {
-				if (s.length() < count)
-					count = s.length();
+			if (seq.size()>0) {
+				count = seq.toArray()[0].toString().length();
+				for (String s : seq) {
+					if (s.length() < count)
+						count = s.length();
+				}
+			}
+			else {
+				count = 0;
 			}
 			break;
 		case TOTAL:
@@ -442,4 +475,5 @@ public class Utils {
 		
 		return n;
 	}
+	
 }

@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,11 +12,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DirectedPseudograph;
+import org.jgrapht.util.SupplierUtil;
+
 import com.google.common.collect.BiMap;
 
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.State;
 import dk.brics.automaton.Transition;
+import javafx.util.Pair;
 import net.sf.smc.model.SmcFSM;
 import net.sf.smc.model.SmcGuard;
 import net.sf.smc.model.SmcMap;
@@ -26,6 +32,13 @@ import net.sf.smc.parser.SmcParser;
 
 public class FSMAutomatonBuilder {
 
+	/**
+	 * Function that builds the automaton that represents the FSM stating from the textual description
+	 *  
+	 * @param fsm
+	 * @return
+	 * @throws IOException 
+	 */
 	static Automaton buildFSMAutomatonFromTXT(BiMap<String, Character> msgsMapping) throws IOException {
 		String readLn, startState, inMessage, endState, outMessage;
 		File f = new File(ConfigurationData.FSM_FILE);
@@ -98,6 +111,64 @@ public class FSMAutomatonBuilder {
 		return createAutomatonFromFSM(fsm, msgsMapping);
 	}
 	
+	/**
+	 * This method creates the transitions list starting from a State Machine described using SMC
+	 * 
+	 * @return the list of Transitions
+	 * @throws IOException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
+	 */
+	static Graph<String, Integer> convertSMCToGraph(ArrayList<Pair<Integer, String>> msgIntegerMapping) throws IllegalAccessException, InvocationTargetException, IOException {
+		ArrayList<FSMState> fsm = new ArrayList<>();
+		int start = 0;
+		
+		File f = new File(ConfigurationData.FSM_FILE);
+		
+		// Parse the SMC file
+		SmcParser p = new SmcParser(ConfigurationData.PROJECT_NAME, new FileInputStream(f), TargetLanguage.LANG_NOT_SET, false);
+		SmcFSM fsMachine = p.parse();
+	
+		// Get the list of the states and compose the Graph
+		ArrayList<SmcMap> stateMaps = (ArrayList<SmcMap>) fsMachine.getMaps();
+		String startState, inMessage, endState, outMessage;
+		Graph<String, Integer> graph = new DirectedPseudograph<String, Integer>(SupplierUtil.createStringSupplier(),
+				SupplierUtil.createIntegerSupplier(fsMachine.getTransitions().size() * fsMachine.getMaps().get(0).getAllStates().size()), false);
+
+		// Get all the informations contained into the SMC file and compose the Graph		
+		for (SmcMap s : stateMaps) {	
+			for (SmcState st : s.getStates()) {
+				for (SmcTransition t : st.getTransitions()) {
+					
+					startState = t.getState().getName().toString().split("[.]")[0];
+					if (!graph.containsVertex(startState))
+						graph.addVertex(startState);
+					
+					for (SmcGuard g : t.getGuards()) {
+						inMessage = g.getName();
+						msgIntegerMapping.add(new Pair(start++, inMessage));
+						endState = g.getEndState().split("[.]")[0];
+						
+						if (!graph.containsVertex(endState))
+							graph.addVertex(endState);
+						
+						// Add the transition
+						graph.addEdge(startState, endState, start-1);
+					}
+				}
+			}
+		}
+		
+		return graph;
+	}
+	
+	/**
+	 * Function that builds the automaton that represents the FSM starting from the SMC description
+	 *  
+	 * @param fsm
+	 * @return
+	 * @throws IOException 
+	 */
 	static Automaton buildFSMAutomatonFromSMC(BiMap<String, Character> msgsMapping) throws IOException, IllegalAccessException, InvocationTargetException {
 		File f = new File(ConfigurationData.FSM_FILE);
 		

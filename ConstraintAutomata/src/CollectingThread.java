@@ -56,6 +56,10 @@ public class CollectingThread extends Thread {
 		sequences.addAll(seqs);
 	}
 	
+	/**
+	 * The collecting thread executes the collecting operation on the assigned list of
+	 * automata 
+	 */
 	@Override
 	public void run() {
 		if (this.batchProcessing)

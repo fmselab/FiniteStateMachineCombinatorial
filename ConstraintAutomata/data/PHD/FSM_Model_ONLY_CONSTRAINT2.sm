@@ -1,0 +1,93 @@
+%class PHD
+%package examples
+
+%start MainMap::Unassociated
+%map MainMap
+
+%%
+Unassociated
+{
+	req_assoc_rel	Unassociated	{ no_response(); }
+	req_assoc_abort	Unassociated	{ rx_abrt(); }
+	rx_aarq_acceptable_and_known_configuration	Operating	{ rx_aare(); }
+	rx_aarq_acceptable_and_unknown_configuration	Waiting_for_config	{ rx_aare(); }
+	rx_aarq_unacceptable_configuration	Unassociated	{ rx_aare(); }
+	rx_aare	Unassociated	{ rx_abrt(); }
+	rx_rlrq	Unassociated	{ rx_abrt(); }
+	rx_rlre	Unassociated	{ no_response(); }
+	rx_abrt	Unassociated	{ no_response(); }
+	rx_roiv_confirmed_event_report	Unassociated	{ rx_abrt(); }
+	rx_aarq_invalid	Unassociated	{ rx_aare(); }
+	rx_aarq_external	Unassociated	{ rx_aare(); }
+	rx_invalid	Unassociated	{ rx_abrt(); }
+}	
+Waiting_for_config
+{
+	req_assoc_rel	Disassociating	{ rx_rlrq(); }
+	req_assoc_abort	Unassociated	{ rx_abrt(); }
+	rx_aarq	Unassociated	{ rx_abrt(); }
+	rx_aare	Unassociated	{ rx_abrt(); }
+	rx_rlrq	Unassociated	{ rx_rlre(); }
+	rx_rlre	Unassociated	{ rx_abrt(); }
+	rx_abrt	Unassociated	{ no_response(); }
+	rx_roiv_confirmed_event_report	Checking_config	{ no_response(); }
+	rx_roiv	Waiting_for_config	{ rx_prst(); }
+	rx_roer	Waiting_for_config	{ no_response(); }
+	rx_rorj	Waiting_for_config	{ no_response(); }
+	rx_rors	Waiting_for_config	{ no_response(); }
+	rx_invalid	Unassociated	{ rx_abrt(); }
+}
+Checking_config
+{
+	req_assoc_rel	Disassociating	{ rx_rlrq(); }
+	req_assoc_abort	Unassociated	{ rx_abrt(); }
+	rx_aarq	Unassociated	{ rx_abrt(); }
+	rx_aare	Unassociated	{ rx_abrt(); }
+	rx_rlrq	Unassociated	{ rx_rlre(); }
+	rx_rlre	Unassociated	{ rx_abrt(); }
+	rx_abrt	Unassociated	{ no_response(); }
+	rx_roiv_confirmed_event_report	Unassociated	{ rx_abrt(); }
+	rx_roiv	Unassociated	{ rx_prst(); }
+	rx_roer	Checking_config	{ no_response(); }
+	rx_rorj	Checking_config	{ no_response(); }
+	req_agent_supplied_unknown_configuration	Waiting_for_config	{ rx_prst(); }
+	req_agent_supplied_known_configuration	Operating	{ rx_prst(); }
+	rx_rors	Checking_config	{ no_response(); }
+	rx_rors_confirmed_action	Checking_config	{ no_response(); }
+	rx_rors_confirmed_set	Checking_config	{ no_response(); }
+	rx_rors_get	Checking_config	{ no_response(); }
+	rx_invalid	Unassociated	{ rx_abrt(); }
+}
+Operating
+{
+	req_assoc_rel	Disassociating	{ rx_rlrq(); }
+	req_assoc_abort	Unassociated	{ rx_abrt(); }
+	rx_aarq	Unassociated	{ rx_abrt(); }
+	rx_aare	Unassociated	{ rx_abrt(); }
+	rx_rlrq	Unassociated	{ rx_rlre(); }
+	rx_rlre	Unassociated	{ rx_abrt(); }
+	rx_abrt	Unassociated	{ no_response(); }
+	rx_roer	Operating	{ no_response(); }
+	rx_rorj	Operating	{ no_response(); }
+	rx_rors	Operating	{ no_response(); }
+	rx_rors_confirmed_action	Operating	{ no_response(); }
+	rx_rors_confirmed_set	Operating	{ no_response(); }
+	rx_rors_get	Operating	{ rx_abrt(); }
+	rx_invalid	Unassociated	{ rx_abrt(); }
+}
+Disassociating
+{
+	req_assoc_rel	Disassociating	{ no_response(); }
+	req_assoc_abort	Unassociated	{ rx_abrt(); }
+	rx_aarq	Unassociated	{ rx_abrt(); }
+	rx_aare	Unassociated	{ rx_abrt(); }
+	rx_rlrq	Disassociating	{ rx_rlre(); }
+	rx_rlre	Unassociated	{ no_response(); }
+	rx_abrt	Unassociated	{ no_response(); }
+	rx_roiv	Disassociating	{ no_response(); }
+	rx_roer	Unassociated	{ rx_abrt(); }
+	rx_rorj	Unassociated	{ rx_abrt(); }
+	rx_rors	Unassociated	{ no_response(); }
+	rx_invalid	Unassociated	{ rx_abrt(); }
+}
+%%
