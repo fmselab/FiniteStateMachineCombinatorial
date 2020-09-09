@@ -31,7 +31,7 @@ public class ConfigurationData {
 	public final static boolean NOT_SECOND = false;
 	
 	// Sequence generation mode
-	public final static Mode MODALITY = Mode.STATES_COVERAGE;
+	public final static Mode MODALITY = Mode.TRANSITIONS_COVERAGE;
 	// Reparation mode used when the constraints are not considered during the generation phase
 	public final static ReparationMode REPAIR_MODALITY = ReparationMode.SKIP_ERROR;
 	
@@ -48,5 +48,8 @@ public class ConfigurationData {
 	
 	// Set the strength of the test
 	public final static Strength TEST_STRENGHT = Strength.PAIR_WISE;
+	
+	// Split the test sequence if Transition Coverage is used?
+	public final static boolean SPLIT_SEQ = true;
 	
 }

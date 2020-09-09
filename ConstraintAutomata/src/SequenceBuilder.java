@@ -300,11 +300,28 @@ public class SequenceBuilder {
 			
 			List<Integer> shiftedEdgeList = edgeList.subList(lastIndexOfUnassociated, edgeList.size());
 			shiftedEdgeList.addAll(edgeList.subList(0, lastIndexOfUnassociated));
+			List<String> shiftedVertexList = vertexList.subList(lastIndexOfUnassociated, vertexList.size());
+			shiftedVertexList.addAll(vertexList.subList(0, lastIndexOfUnassociated));
 			
-			for (Integer msg : shiftedEdgeList) 
-				resultList += decodeMessage(msg,msgsIntegerMapping) + " ";
+			// Check if the sequence has to be splitted
+			if (!ConfigurationData.SPLIT_SEQ) {
+				for (Integer msg : shiftedEdgeList) 
+					resultList += decodeMessage(msg,msgsIntegerMapping) + " ";
 			
-			lst.add(resultList);
+				lst.add(resultList);
+			} else {
+				resultList = "rx_abrt ";
+				
+				for(int i=0; i<shiftedEdgeList.size(); i++) {
+					resultList += decodeMessage(shiftedEdgeList.get(i),msgsIntegerMapping) + " ";
+					
+					if (shiftedVertexList.get(i+1).equals(fromState)) {
+						lst.add(resultList);
+						resultList = "rx_abrt ";
+					}
+						
+				}
+			}
 		}	
 		
 		return lst;

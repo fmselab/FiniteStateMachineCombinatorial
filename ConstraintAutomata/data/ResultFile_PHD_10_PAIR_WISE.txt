@@ -1,6 +1,6 @@
 ==SUMMARY DATA==
 
-Sequence generation method: STATES_COVERAGE
+Sequence generation method: TRANSITIONS_COVERAGE
 Sequence repairing method: NONE
 Monitoring enabled: true
 -----Automatons per batch: 10
@@ -9,13 +9,13 @@ Total number of states: 5
 Total number of events: 24
 Total number of pairs: 576
 Total number of valid pairs: 529
------Number of sequences: 1
-Max sequence length: 145
-Min sequence length: 145
-Avg sequence length: 145
-Total sequence length: 145
+-----Number of sequences: 39
+Max sequence length: 235
+Min sequence length: 16
+Avg sequence length: 73
+Total sequence length: 2869
 Number of valid sequences: 0
 Number of covered pairs: 0
 Number of covered states: 0
 Number of covered transitions: 0
-Generation time [s]: 1.114
+Generation time [s]: 1.24
