@@ -1,11 +1,12 @@
 
 public class ConfigurationData {
-	public final static String PROJECT_NAME = "PHD";
+	public final static String PROJECT_NAME = "TrafficLight";
 	
 	public final static String MESSAGES_FILE = "data/" + PROJECT_NAME + "/Messages.txt";
 	
 	public final static String FSM_FILE = 
-			"data/" + PROJECT_NAME +"/FSM_Model_ONLY_CONSTRAINT2.sm";
+			//"data/" + PROJECT_NAME +"/FSM_Model_ONLY_CONSTRAINT2.sm";
+			"data/" + PROJECT_NAME +"/TrafficLight_Complete.sm";
 	
 	public final static String SCA_FILE = 
 			"data/" + PROJECT_NAME +"/SCA.txt";
@@ -31,7 +32,7 @@ public class ConfigurationData {
 	public final static boolean NOT_SECOND = false;
 	
 	// Sequence generation mode
-	public final static Mode MODALITY = Mode.TRANSITIONS_COVERAGE;
+	public final static Mode MODALITY = Mode.STATES_COVERAGE;
 	// Reparation mode used when the constraints are not considered during the generation phase
 	public final static ReparationMode REPAIR_MODALITY = ReparationMode.SKIP_ERROR;
 	
@@ -50,6 +51,8 @@ public class ConfigurationData {
 	public final static Strength TEST_STRENGHT = Strength.PAIR_WISE;
 	
 	// Split the test sequence if Transition Coverage is used?
-	public final static boolean SPLIT_SEQ = true;
+	public final static boolean SPLIT_SEQ = false;
 	
+	public final static String STARTING_STATE = "Off";
+	public final static String RESET_MSG = "rx_abrt";
 }

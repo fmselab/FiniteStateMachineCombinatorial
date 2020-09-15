@@ -1,0 +1,3 @@
+toggle red_period green_period yellow_period police_interrupt blink_interval blink_interval police_interrupt yellow_period red_period green_period 
+toggle red_period green_period police_interrupt blink_interval police_interrupt yellow_period red_period green_period toggle 
+toggle red_period green_period yellow_period police_interrupt blink_interval toggle toggle red_period green_period 

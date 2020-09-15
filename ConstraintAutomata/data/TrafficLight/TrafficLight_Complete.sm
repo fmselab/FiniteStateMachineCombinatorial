@@ -1,0 +1,42 @@
+%class TrafficLight_Complete
+%package traffic.light
+
+%start MainMap::Off
+%map MainMap
+
+%%
+Off
+{
+	toggle	Normal_red	{ display_red(); }
+}	
+Normal_red
+{
+	toggle	Off	{ display_none(); }
+	red_period	Normal_green	{ display_green(); }
+	police_interrupt	Interrupted_yellow	{ display_yellow(); }
+}
+Normal_green
+{
+	toggle	Off	{ display_none(); }
+	green_period	Normal_yellow	{ display_yellow(); }
+	police_interrupt	Interrupted_yellow	{ display_yellow(); }
+}
+Normal_yellow
+{
+	toggle	Off	{ display_none(); }
+	yellow_period	Normal_red	{ display_red(); }
+	police_interrupt	Interrupted_yellow	{ display_yellow(); }
+}
+Interrupted_yellow
+{
+	toggle	Off	{ display_none(); }
+	blink_interval	Interrupted_black	{ display_none(); }
+	police_interrupt	Normal_yellow	{ display_yellow(); }
+}
+Interrupted_black
+{
+	toggle	Off	{ display_none(); }
+	blink_interval	Interrupted_yellow	{ display_yellow(); }
+	police_interrupt	Normal_yellow	{ display_yellow(); }
+}
+%%

@@ -208,11 +208,11 @@ public class SequenceBuilder {
 					}
 					
 					if (ConfigurationData.MODALITY == Mode.TRANSITIONS_COVERAGE) {
-						sequences = new HashSet<String>(getSequencesForTransitionCoverage("Unassociated"));
+						sequences = new HashSet<String>(getSequencesForTransitionCoverage(ConfigurationData.STARTING_STATE));
 					}
 					
 					if (ConfigurationData.MODALITY == Mode.STATES_COVERAGE) {
-						sequences = new HashSet<String>(getSequencesForStateCoverage("Unassociated"));
+						sequences = new HashSet<String>(getSequencesForStateCoverage(ConfigurationData.STARTING_STATE));
 					}
 				}
 			} catch (Exception e1) {
@@ -310,14 +310,14 @@ public class SequenceBuilder {
 			
 				lst.add(resultList);
 			} else {
-				resultList = "rx_abrt ";
+				resultList = ConfigurationData.RESET_MSG + " ";
 				
 				for(int i=0; i<shiftedEdgeList.size(); i++) {
 					resultList += decodeMessage(shiftedEdgeList.get(i),msgsIntegerMapping) + " ";
 					
 					if (shiftedVertexList.get(i+1).equals(fromState)) {
 						lst.add(resultList);
-						resultList = "rx_abrt ";
+						resultList = ConfigurationData.RESET_MSG + " ";
 					}
 						
 				}
