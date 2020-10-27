@@ -11,4 +11,6 @@ public class TrafficLight_Complete {
 	void display_green() {}
 	
 	void display_none() {}
+	
+	void foo() {}
 }

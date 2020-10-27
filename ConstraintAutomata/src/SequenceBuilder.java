@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +11,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
+
+import javax.xml.stream.events.StartElement;
+
 import javafx.util.Pair;
 
 import org.jgrapht.Graph;
@@ -16,7 +21,12 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.GraphTests;
 import org.jgrapht.alg.connectivity.KosarajuStrongConnectivityInspector;
 import org.jgrapht.alg.cycle.ChinesePostman;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.alg.tour.HeldKarpTSP;
+import org.jgrapht.alg.tour.TwoApproxMetricTSP;
+import org.jgrapht.ListenableGraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.nio.dot.DOTExporter;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -365,14 +375,47 @@ public class SequenceBuilder {
 		// of graphs
 		if (automatonGraph.vertexSet().size()>0) {	
 			HeldKarpTSP<String,Integer> visitTSP = new HeldKarpTSP<>();
-			GraphPath<String, Integer> sol = visitTSP.getTour(automatonGraph);
 			
-			// Since we want to start from a specific state, shift the event into the result list
+			DOTExporter<String, Integer> exporter=new DOTExporter<>();
+			Writer writer = new StringWriter();
+			exporter.exportGraph(automatonGraph, writer);
+			System.out.println(writer.toString());
+			
+			GraphPath<String, Integer> sol;
+			sol = visitTSP.getTour(automatonGraph);
+			
+			List<Integer> edgeList = new ArrayList<>();
+			List<String> vertexList = new ArrayList<>();
+			int lastIndexOfUnassociated = 0; 
 			resultList = "";
-			List<Integer> edgeList = sol.getEdgeList();
-			List<String> vertexList = sol.getVertexList();			
-			int lastIndexOfUnassociated = vertexList.lastIndexOf(fromState);
 			
+			if (sol != null) {
+				// Since we want to start from a specific state, shift the event into the result list
+				edgeList = sol.getEdgeList();
+				vertexList = sol.getVertexList();			
+				lastIndexOfUnassociated = vertexList.lastIndexOf(fromState);
+			}
+			{
+				// TSP is not computable -> Simulate the shortest path by using Dijkstra
+				Set<String> vertexSet = automatonGraph.vertexSet();
+				DijkstraShortestPath<String, Integer> path = new DijkstraShortestPath(automatonGraph);
+				
+				// Add step by step all the states
+				for (String s : vertexSet) {
+					String initial = (vertexList.size() > 0) ? vertexList.get(vertexList.size()-1) : fromState;
+					sol = path.getPath(initial, s);
+					
+					edgeList.addAll(sol.getEdgeList());
+					vertexList.addAll(sol.getVertexList());				
+				}
+				
+				// Come back to the initial state
+				sol = path.getPath(vertexList.get(vertexList.size()-1), fromState);
+				
+				edgeList.addAll(sol.getEdgeList());
+				vertexList.addAll(sol.getVertexList());				
+			}
+					
 			List<Integer> shiftedEdgeList = edgeList.subList(lastIndexOfUnassociated, edgeList.size());
 			shiftedEdgeList.addAll(edgeList.subList(0, lastIndexOfUnassociated));
 			

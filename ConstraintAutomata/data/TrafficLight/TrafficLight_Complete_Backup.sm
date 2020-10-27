@@ -1,0 +1,333 @@
+%class TrafficLight_Complete
+%package examples
+
+%start MainMap::off|off|contr_off|blocked_a
+%map MainMap
+
+%%
+off|off|contr_off|blocked_a
+{
+	||operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	||turn_off,	off|off|contr_off|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|prepare_period|safe_period	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|release_period|safe_period	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|blocked_a	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|blocked_a	{ foo(); }
+	release_period|prepare_period|turn_off	off|off|contr_off|blocked_a	{ foo(); }
+	prepare_period|release_period|turn_off	off|off|contr_off|blocked_a	{ foo(); }
+	release_period|release_period|turn_off	off|off|contr_off|blocked_a	{ foo(); }
+	prepare_period|release_period|turn_on	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|release_period|turn_off	off|off|contr_off|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|blocked_a	{ foo(); }
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	release_period|prepare_period|safe_period	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|blocked_a	{ foo(); }
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+}
+attention|attention|standby|blocked_b
+{
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|blocked_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|blocked_b	{ foo(); }
+	prepare_period|release_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	release_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|blocked_b	{ foo(); }
+	prepare_period|prepare_period|safe_period	attention|attention|standby|blocked_b	{ foo(); }
+	prepare_period|release_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	release_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|blocked_b	{ foo(); }
+}
+attention|attention|standby|release_a
+{
+	prepare_period|prepare_period|turn_off	off|off|contr_off|release_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|release_a	{ foo(); }
+	prepare_period|prepare_period|safe_period	attention|attention|standby|release_a	{ foo(); }
+	release_period|prepare_period|turn_on	attention|attention|standby|release_a	{ foo(); }
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|release_period|turn_off	off|off|contr_off|release_a	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|release_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|release_a	{ foo(); }
+	release_period|prepare_period|turn_off	off|off|contr_off|release_a	{ foo(); }
+	prepare_period|release_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+}
+attention|attention|standby|release_b
+{
+	prepare_period|prepare_period|turn_off	off|off|contr_off|release_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|release_b	{ foo(); }
+	release_period|prepare_period|turn_on	attention|attention|standby|release_b	{ foo(); }
+	prepare_period|release_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|safe_period	attention|attention|standby|release_b	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|release_b	{ foo(); }
+	release_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|release_b	{ foo(); }
+	prepare_period|release_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+}
+attention|attention|standby|released_a
+{
+	prepare_period|prepare_period|turn_off	off|off|contr_off|released_a	{ foo(); }
+	prepare_period|prepare_period|safe_period	attention|attention|standby|released_a	{ foo(); }
+	release_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|released_a	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|released_a	{ foo(); }
+	prepare_period|release_period|turn_off	off|off|contr_off|released_a	{ foo(); }
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|release_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|released_a	{ foo(); }
+	release_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+}
+attention|attention|standby|released_b
+{
+	prepare_period|prepare_period|turn_off	off|off|contr_off|released_b	{ foo(); }
+	release_period|prepare_period|safe_period	attention|attention|standby|released_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|released_b	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|released_b	{ foo(); }
+	prepare_period|release_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|safe_period	attention|attention|standby|released_b	{ foo(); }
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|released_b	{ foo(); }
+	release_period|prepare_period|turn_on	attention|attention|standby|released_b	{ foo(); }
+	prepare_period|release_period|turn_on	attention|attention|standby|released_b	{ foo(); }
+}
+blocked|blocked|operate|blocked_a
+{
+	||standby_t	attention|attention|standby|blocked_a	{ foo(); }
+	||safe_period	released|blocked|operate|release_a	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|prepare_period|safe_period	released|blocked|operate|release_a	{ foo(); }
+	release_period|prepare_period|safe_period	released|blocked|operate|release_a	{ foo(); }
+	release_period|prepare_period|turn_on	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|release_period|turn_off	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|release_period|safe_period	released|blocked|operate|release_a	{ foo(); }
+	release_period|release_period|standby_t	attention|attention|standby|blocked_a	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|release_period|turn_on	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|blocked_a	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|blocked_a	{ foo(); }
+	release_period|release_period|standby_t	attention|attention|standby|blocked_a	{ foo(); }
+	release_period|prepare_period|turn_off	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|safe_period	released|blocked|operate|release_a	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|blocked_a	{ foo(); }
+}
+blocked|blocked|operate|blocked_b
+{
+	prepare_period||safe_period	blocked|released|operate|release_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|blocked_b	{ foo(); }
+	prepare_period|prepare_period|safe_period	blocked|released|operate|release_b	{ foo(); }
+	prepare_period|release_period|operate_t	blocked|blocked|operate|blocked_b	{ foo(); }
+	release_period|prepare_period|safe_period	blocked|released|operate|release_b	{ foo(); }
+	release_period|prepare_period|operate_t	blocked|blocked|operate|blocked_b	{ foo(); }
+	prepare_period|release_period|safe_period	blocked|released|operate|release_b	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|blocked_b	{ foo(); }
+	release_period|release_period|standby_t	attention|attention|standby|blocked_b	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|blocked_b	{ foo(); }
+	prepare_period|prepare_period|turn_off	blocked|blocked|operate|blocked_b	{ foo(); }
+	release_period|prepare_period|turn_off	blocked|blocked|operate|blocked_b	{ foo(); }
+	prepare_period|release_period|turn_on	blocked|blocked|operate|blocked_b	{ foo(); }
+	prepare_period|release_period|turn_off	blocked|blocked|operate|blocked_b	{ foo(); }
+	prepare_period|prepare_period|turn_on	blocked|blocked|operate|blocked_b	{ foo(); }
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_b	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|blocked_b	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|blocked_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|blocked_b	{ foo(); }
+	release_period|release_period|safe_period	blocked|released|operate|release_b	{ foo(); }
+	prepare_period|prepare_period|safe_period	blocked|released|operate|release_b	{ foo(); }
+	release_period|prepare_period|safe_period	blocked|released|operate|release_b	{ foo(); }
+	prepare_period|release_period|safe_period	blocked|released|operate|release_b	{ foo(); }
+}
+blocked|prepare_block|operate|released_b
+{
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|release_period|turn_off	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|released_b	{ foo(); }
+	prepare_period|release_period|turn_on	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|release_period|safe_period	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|released_b	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|released_b	{ foo(); }
+	prepare_period|prepare_period|turn_on	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|safe_period	blocked|blocked|operate|blocked_a	{ foo(); }
+	release_period|prepare_period|operate_t	blocked|blocked|operate|blocked_a	{ foo(); }
+	release_period|prepare_period|turn_on	blocked|blocked|operate|blocked_a	{ foo(); }
+	release_period|release_period|safe_period	blocked|prepare_block|operate|released_b	{ foo(); }
+	release_period|prepare_period|turn_off	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|release_period|operate_t	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|prepare_period|turn_off	blocked|blocked|operate|blocked_a	{ foo(); }
+	release_period|release_period|operate_t	blocked|prepare_block|operate|released_b	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|released_b	{ foo(); }
+	release_period|prepare_period|turn_on	blocked|blocked|operate|blocked_a	{ foo(); }
+	release_period|prepare_period|safe_period	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|safe_period	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	blocked|blocked|operate|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	blocked|blocked|operate|blocked_a	{ foo(); }
+	release_period|release_period|turn_off	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|released_b	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|released_b	{ foo(); }
+}
+blocked|released|operate|release_b
+{
+	prepare_period|release_period|operate_t	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|release_period|safe_period	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|release_b	{ foo(); }
+	prepare_period|prepare_period|turn_on	blocked|released|operate|release_b	{ foo(); }
+	prepare_period|release_period|turn_off	blocked|prepare_block|operate|released_b	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|release_b	{ foo(); }
+	prepare_period|prepare_period|turn_off	blocked|released|operate|release_b	{ foo(); }
+	release_period|release_period|safe_period	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|release_period|turn_on	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|prepare_period|safe_period	blocked|released|operate|release_b	{ foo(); }
+	release_period|prepare_period|turn_on	blocked|released|operate|release_b	{ foo(); }
+	release_period|prepare_period|turn_off	blocked|released|operate|release_b	{ foo(); }
+	release_period|release_period|operate_t	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|release_b	{ foo(); }
+	release_period|release_period|turn_off	blocked|prepare_block|operate|released_b	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|release_b	{ foo(); }
+	release_period|release_period|safe_period	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|release_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|release_b	{ foo(); }
+	prepare_period|release_period|safe_period	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|release_period|turn_off	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|release_period|operate_t	blocked|prepare_block|operate|released_b	{ foo(); }
+	release_period|release_period|operate_t	blocked|prepare_block|operate|released_b	{ foo(); }
+	prepare_period|release_period|turn_on	blocked|prepare_block|operate|released_b	{ foo(); }
+	release_period|release_period|turn_on	blocked|prepare_block|operate|released_b	{ foo(); }
+}
+off|off|contr_off|blocked_a
+{
+	||turn_on	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|release_period|operate_t	off|off|contr_off|blocked_a	{ foo(); }
+	release_period|prepare_period|turn_off	off|off|contr_off|blocked_a	{ foo(); }
+	release_period|prepare_period|turn_on	attention|attention|standby|blocked_a	{ foo(); }
+	release_period|release_period|turn_on	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|release_period|turn_off	off|off|contr_off|blocked_a	{ foo(); }
+	release_period|release_period|safe_period	off|off|contr_off|blocked_a	{ foo(); }
+	release_period|release_period|turn_off	off|off|contr_off|blocked_a	{ foo(); }
+	release_period|release_period|standby_t	off|off|contr_off|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|blocked_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|blocked_a	{ foo(); }
+	release_period|release_period|turn_on	attention|attention|standby|blocked_a	{ foo(); }
+	release_period|release_period|operate_t	off|off|contr_off|blocked_a	{ foo(); }
+}
+off|off|contr_off|blocked_b
+{
+	prepare_period|prepare_period|turn_on	attention|attention|standby|blocked_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	off|off|contr_off|blocked_b	{ foo(); }
+	release_period|prepare_period|turn_on	attention|attention|standby|blocked_b	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|blocked_b	{ foo(); }
+	prepare_period|release_period|operate_t	off|off|contr_off|blocked_b	{ foo(); }
+	prepare_period|prepare_period|safe_period	off|off|contr_off|blocked_b	{ foo(); }
+	release_period|prepare_period|turn_on	attention|attention|standby|blocked_b	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|blocked_b	{ foo(); }
+}
+off|off|contr_off|release_a
+{
+	prepare_period|prepare_period|operate_t	off|off|contr_off|release_a	{ foo(); }
+	prepare_period|prepare_period|standby_t	off|off|contr_off|release_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|release_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|release_a	{ foo(); }
+	prepare_period|prepare_period|safe_period	off|off|contr_off|release_a	{ foo(); }
+	prepare_period|release_period|turn_on	attention|attention|standby|release_a	{ foo(); }
+	release_period|prepare_period|operate_t	off|off|contr_off|release_a	{ foo(); }
+	release_period|prepare_period|turn_on	attention|attention|standby|release_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|release_a	{ foo(); }
+	prepare_period|release_period|operate_t	off|off|contr_off|release_a	{ foo(); }
+}
+off|off|contr_off|release_b
+{
+	prepare_period|prepare_period|turn_on	attention|attention|standby|release_b	{ foo(); }
+	release_period|prepare_period|turn_on	attention|attention|standby|release_b	{ foo(); }
+	prepare_period|prepare_period|safe_period	off|off|contr_off|release_b	{ foo(); }
+	prepare_period|release_period|operate_t	off|off|contr_off|release_b	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|release_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	off|off|contr_off|release_b	{ foo(); }
+	prepare_period|prepare_period|operate_t	off|off|contr_off|release_b	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|release_b	{ foo(); }
+	prepare_period|release_period|turn_on	attention|attention|standby|release_b	{ foo(); }
+	release_period|prepare_period|turn_on	attention|attention|standby|release_b	{ foo(); }
+}
+off|off|contr_off|released_a
+{
+	prepare_period|prepare_period|turn_on	attention|attention|standby|released_a	{ foo(); }
+	prepare_period|release_period|turn_on	attention|attention|standby|released_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|released_a	{ foo(); }
+	prepare_period|prepare_period|safe_period	off|off|contr_off|released_a	{ foo(); }
+	prepare_period|prepare_period|standby_t	off|off|contr_off|released_a	{ foo(); }
+	release_period|prepare_period|operate_t	off|off|contr_off|released_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|released_a	{ foo(); }
+	prepare_period|release_period|turn_on	attention|attention|standby|released_a	{ foo(); }
+	release_period|prepare_period|turn_on	attention|attention|standby|released_a	{ foo(); }
+}
+off|off|contr_off|released_b
+{
+	prepare_period|prepare_period|turn_on	attention|attention|standby|released_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	off|off|contr_off|released_b	{ foo(); }
+	prepare_period|release_period|turn_on	attention|attention|standby|released_b	{ foo(); }
+	release_period|prepare_period|turn_on	attention|attention|standby|released_b	{ foo(); }
+	prepare_period|prepare_period|safe_period	off|off|contr_off|released_b	{ foo(); }
+	prepare_period|prepare_period|turn_off	off|off|contr_off|released_b	{ foo(); }
+	prepare_period|release_period|turn_on	attention|attention|standby|released_b	{ foo(); }
+	release_period|prepare_period|operate_t	off|off|contr_off|released_b	{ foo(); }
+	prepare_period|prepare_period|turn_on	attention|attention|standby|released_b	{ foo(); }
+}
+prepare_block|blocked|operate|released_a
+{
+	prepare_period||operate_t	blocked|blocked|operate|blocked_b	{ foo(); }
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_b	{ foo(); }
+	prepare_period|prepare_period|safe_period	blocked|blocked|operate|blocked_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|released_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	blocked|blocked|operate|blocked_b	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|released_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	blocked|blocked|operate|blocked_b	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|released_a	{ foo(); }
+	release_period|release_period|turn_on	prepare_block|blocked|operate|released_a	{ foo(); }
+	release_period|prepare_period|operate_t	prepare_block|blocked|operate|released_a	{ foo(); }
+	prepare_period|release_period|safe_period	blocked|blocked|operate|blocked_b	{ foo(); }
+	prepare_period|release_period|operate_t	blocked|blocked|operate|blocked_b	{ foo(); }
+	release_period|prepare_period|turn_off	prepare_block|blocked|operate|released_a	{ foo(); }
+	release_period|release_period|turn_off	prepare_block|blocked|operate|released_a	{ foo(); }
+	release_period|prepare_period|safe_period	prepare_block|blocked|operate|released_a	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|released_a	{ foo(); }
+	release_period|release_period|safe_period	prepare_block|blocked|operate|released_a	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|released_a	{ foo(); }
+	prepare_period|release_period|turn_on	blocked|blocked|operate|blocked_b	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|released_a	{ foo(); }
+	release_period|prepare_period|turn_on	prepare_block|blocked|operate|released_a	{ foo(); }
+	prepare_period|release_period|turn_off	blocked|blocked|operate|blocked_b	{ foo(); }
+	prepare_period|prepare_period|operate_t	blocked|blocked|operate|blocked_b	{ foo(); }
+}
+released|blocked|operate|release_a
+{
+	release_period||operate_t	prepare_block|blocked|operate|released_a	{ foo(); }
+	release_period|prepare_period|turn_off	prepare_block|blocked|operate|released_a	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|release_a	{ foo(); }
+	prepare_period|prepare_period|turn_on	released|blocked|operate|release_a	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|release_a	{ foo(); }
+	release_period|prepare_period|safe_period	prepare_block|blocked|operate|released_a	{ foo(); }
+	release_period|prepare_period|operate_t	prepare_block|blocked|operate|released_a	{ foo(); }
+	prepare_period|prepare_period|turn_off	released|blocked|operate|release_a	{ foo(); }
+	release_period|release_period|turn_off	prepare_block|blocked|operate|released_a	{ foo(); }
+	release_period|prepare_period|turn_on	prepare_block|blocked|operate|released_a	{ foo(); }
+	release_period|release_period|safe_period	prepare_block|blocked|operate|released_a	{ foo(); }
+	prepare_period|prepare_period|safe_period	released|blocked|operate|release_a	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|release_a	{ foo(); }
+	prepare_period|release_period|turn_on	released|blocked|operate|release_a	{ foo(); }
+	release_period|release_period|operate_t	prepare_block|blocked|operate|released_a	{ foo(); }
+	prepare_period|release_period|safe_period	released|blocked|operate|release_a	{ foo(); }
+	prepare_period|release_period|turn_off	released|blocked|operate|release_a	{ foo(); }
+	prepare_period|prepare_period|standby_t	attention|attention|standby|release_a	{ foo(); }
+	prepare_period|release_period|operate_t	released|blocked|operate|release_a	{ foo(); }
+	release_period|release_period|standby_t	attention|attention|standby|release_a	{ foo(); }
+	release_period|prepare_period|standby_t	attention|attention|standby|release_a	{ foo(); }
+	prepare_period|release_period|standby_t	attention|attention|standby|release_a	{ foo(); }
+	release_period|prepare_period|operate_t	prepare_block|blocked|operate|released_a	{ foo(); }
+	prepare_period|prepare_period|operate_t	released|blocked|operate|release_a	{ foo(); }
+}
+%%

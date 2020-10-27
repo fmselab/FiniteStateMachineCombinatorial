@@ -53,6 +53,11 @@ public class ConfigurationData {
 	// Split the test sequence if Transition Coverage is used?
 	public final static boolean SPLIT_SEQ = false;
 	
-	public final static String STARTING_STATE = "Off";
-	public final static String RESET_MSG = "rx_abrt";
+	public final static String STARTING_STATE = 
+			//"Off";
+			"off__off__contr_off__blocked_a";
+	
+	public final static String RESET_MSG = 
+			//"rx_abrt";
+			"____turn_off";
 }

@@ -1,42 +1,333 @@
 %class TrafficLight_Complete
-%package traffic.light
+%package examples
 
-%start MainMap::Off
+%start MainMap::off__off__contr_off__blocked_a
 %map MainMap
 
 %%
-Off
+attention__attention__standby__blocked_a
 {
-	toggle	Normal_red	{ display_red(); }
-}	
-Normal_red
-{
-	toggle	Off	{ display_none(); }
-	red_period	Normal_green	{ display_green(); }
-	police_interrupt	Interrupted_yellow	{ display_yellow(); }
+	____operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	____turn_off	off__off__contr_off__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__prepare_period__safe_period	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__release_period__safe_period	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__blocked_a	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__blocked_a	{ foo(); }
+	release_period__prepare_period__turn_off	off__off__contr_off__blocked_a	{ foo(); }
+	prepare_period__release_period__turn_off	off__off__contr_off__blocked_a	{ foo(); }
+	release_period__release_period__turn_off	off__off__contr_off__blocked_a	{ foo(); }
+	prepare_period__release_period__turn_on	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__release_period__turn_off	off__off__contr_off__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__blocked_a	{ foo(); }
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	release_period__prepare_period__safe_period	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__blocked_a	{ foo(); }
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
 }
-Normal_green
+attention__attention__standby__blocked_b
 {
-	toggle	Off	{ display_none(); }
-	green_period	Normal_yellow	{ display_yellow(); }
-	police_interrupt	Interrupted_yellow	{ display_yellow(); }
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__blocked_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__blocked_b	{ foo(); }
+	prepare_period__release_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	release_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__blocked_b	{ foo(); }
+	prepare_period__prepare_period__safe_period	attention__attention__standby__blocked_b	{ foo(); }
+	prepare_period__release_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	release_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__blocked_b	{ foo(); }
 }
-Normal_yellow
+attention__attention__standby__release_a
 {
-	toggle	Off	{ display_none(); }
-	yellow_period	Normal_red	{ display_red(); }
-	police_interrupt	Interrupted_yellow	{ display_yellow(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__release_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__release_a	{ foo(); }
+	prepare_period__prepare_period__safe_period	attention__attention__standby__release_a	{ foo(); }
+	release_period__prepare_period__turn_on	attention__attention__standby__release_a	{ foo(); }
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__release_period__turn_off	off__off__contr_off__release_a	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__release_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__release_a	{ foo(); }
+	release_period__prepare_period__turn_off	off__off__contr_off__release_a	{ foo(); }
+	prepare_period__release_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
 }
-Interrupted_yellow
+attention__attention__standby__release_b
 {
-	toggle	Off	{ display_none(); }
-	blink_interval	Interrupted_black	{ display_none(); }
-	police_interrupt	Normal_yellow	{ display_yellow(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__release_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__release_b	{ foo(); }
+	release_period__prepare_period__turn_on	attention__attention__standby__release_b	{ foo(); }
+	prepare_period__release_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__safe_period	attention__attention__standby__release_b	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__release_b	{ foo(); }
+	release_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__release_b	{ foo(); }
+	prepare_period__release_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
 }
-Interrupted_black
+attention__attention__standby__released_a
 {
-	toggle	Off	{ display_none(); }
-	blink_interval	Interrupted_yellow	{ display_yellow(); }
-	police_interrupt	Normal_yellow	{ display_yellow(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__released_a	{ foo(); }
+	prepare_period__prepare_period__safe_period	attention__attention__standby__released_a	{ foo(); }
+	release_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__released_a	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__released_a	{ foo(); }
+	prepare_period__release_period__turn_off	off__off__contr_off__released_a	{ foo(); }
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__release_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__released_a	{ foo(); }
+	release_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+}
+attention__attention__standby__released_b
+{
+	prepare_period__prepare_period__turn_off	off__off__contr_off__released_b	{ foo(); }
+	release_period__prepare_period__safe_period	attention__attention__standby__released_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__released_b	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__released_b	{ foo(); }
+	prepare_period__release_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__safe_period	attention__attention__standby__released_b	{ foo(); }
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__released_b	{ foo(); }
+	release_period__prepare_period__turn_on	attention__attention__standby__released_b	{ foo(); }
+	prepare_period__release_period__turn_on	attention__attention__standby__released_b	{ foo(); }
+}
+blocked__blocked__operate__blocked_a
+{
+	____standby_t	attention__attention__standby__blocked_a	{ foo(); }
+	____safe_period	released__blocked__operate__release_a	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__prepare_period__safe_period	released__blocked__operate__release_a	{ foo(); }
+	release_period__prepare_period__safe_period	released__blocked__operate__release_a	{ foo(); }
+	release_period__prepare_period__turn_on	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__release_period__turn_off	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__release_period__safe_period	released__blocked__operate__release_a	{ foo(); }
+	release_period__release_period__standby_t	attention__attention__standby__blocked_a	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__release_period__turn_on	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__blocked_a	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__blocked_a	{ foo(); }
+	release_period__release_period__standby_t	attention__attention__standby__blocked_a	{ foo(); }
+	release_period__prepare_period__turn_off	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__safe_period	released__blocked__operate__release_a	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__blocked_a	{ foo(); }
+}
+blocked__blocked__operate__blocked_b
+{
+	prepare_period____safe_period	blocked__released__operate__release_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__blocked_b	{ foo(); }
+	prepare_period__prepare_period__safe_period	blocked__released__operate__release_b	{ foo(); }
+	prepare_period__release_period__operate_t	blocked__blocked__operate__blocked_b	{ foo(); }
+	release_period__prepare_period__safe_period	blocked__released__operate__release_b	{ foo(); }
+	release_period__prepare_period__operate_t	blocked__blocked__operate__blocked_b	{ foo(); }
+	prepare_period__release_period__safe_period	blocked__released__operate__release_b	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__blocked_b	{ foo(); }
+	release_period__release_period__standby_t	attention__attention__standby__blocked_b	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__blocked_b	{ foo(); }
+	prepare_period__prepare_period__turn_off	blocked__blocked__operate__blocked_b	{ foo(); }
+	release_period__prepare_period__turn_off	blocked__blocked__operate__blocked_b	{ foo(); }
+	prepare_period__release_period__turn_on	blocked__blocked__operate__blocked_b	{ foo(); }
+	prepare_period__release_period__turn_off	blocked__blocked__operate__blocked_b	{ foo(); }
+	prepare_period__prepare_period__turn_on	blocked__blocked__operate__blocked_b	{ foo(); }
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_b	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__blocked_b	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__blocked_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__blocked_b	{ foo(); }
+	release_period__release_period__safe_period	blocked__released__operate__release_b	{ foo(); }
+	prepare_period__prepare_period__safe_period	blocked__released__operate__release_b	{ foo(); }
+	release_period__prepare_period__safe_period	blocked__released__operate__release_b	{ foo(); }
+	prepare_period__release_period__safe_period	blocked__released__operate__release_b	{ foo(); }
+}
+blocked__prepare_block__operate__released_b
+{
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__release_period__turn_off	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__released_b	{ foo(); }
+	prepare_period__release_period__turn_on	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__release_period__safe_period	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__released_b	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__released_b	{ foo(); }
+	prepare_period__prepare_period__turn_on	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__safe_period	blocked__blocked__operate__blocked_a	{ foo(); }
+	release_period__prepare_period__operate_t	blocked__blocked__operate__blocked_a	{ foo(); }
+	release_period__prepare_period__turn_on	blocked__blocked__operate__blocked_a	{ foo(); }
+	release_period__release_period__safe_period	blocked__prepare_block__operate__released_b	{ foo(); }
+	release_period__prepare_period__turn_off	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__release_period__operate_t	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__prepare_period__turn_off	blocked__blocked__operate__blocked_a	{ foo(); }
+	release_period__release_period__operate_t	blocked__prepare_block__operate__released_b	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__released_b	{ foo(); }
+	release_period__prepare_period__turn_on	blocked__blocked__operate__blocked_a	{ foo(); }
+	release_period__prepare_period__safe_period	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__safe_period	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	blocked__blocked__operate__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	blocked__blocked__operate__blocked_a	{ foo(); }
+	release_period__release_period__turn_off	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__released_b	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__released_b	{ foo(); }
+}
+blocked__released__operate__release_b
+{
+	prepare_period__release_period__operate_t	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__release_period__safe_period	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__release_b	{ foo(); }
+	prepare_period__prepare_period__turn_on	blocked__released__operate__release_b	{ foo(); }
+	prepare_period__release_period__turn_off	blocked__prepare_block__operate__released_b	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__release_b	{ foo(); }
+	prepare_period__prepare_period__turn_off	blocked__released__operate__release_b	{ foo(); }
+	release_period__release_period__safe_period	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__release_period__turn_on	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__prepare_period__safe_period	blocked__released__operate__release_b	{ foo(); }
+	release_period__prepare_period__turn_on	blocked__released__operate__release_b	{ foo(); }
+	release_period__prepare_period__turn_off	blocked__released__operate__release_b	{ foo(); }
+	release_period__release_period__operate_t	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__release_b	{ foo(); }
+	release_period__release_period__turn_off	blocked__prepare_block__operate__released_b	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__release_b	{ foo(); }
+	release_period__release_period__safe_period	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__release_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__release_b	{ foo(); }
+	prepare_period__release_period__safe_period	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__release_period__turn_off	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__release_period__operate_t	blocked__prepare_block__operate__released_b	{ foo(); }
+	release_period__release_period__operate_t	blocked__prepare_block__operate__released_b	{ foo(); }
+	prepare_period__release_period__turn_on	blocked__prepare_block__operate__released_b	{ foo(); }
+	release_period__release_period__turn_on	blocked__prepare_block__operate__released_b	{ foo(); }
+}
+off__off__contr_off__blocked_a
+{
+	____turn_on	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__release_period__operate_t	off__off__contr_off__blocked_a	{ foo(); }
+	release_period__prepare_period__turn_off	off__off__contr_off__blocked_a	{ foo(); }
+	release_period__prepare_period__turn_on	attention__attention__standby__blocked_a	{ foo(); }
+	release_period__release_period__turn_on	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__release_period__turn_off	off__off__contr_off__blocked_a	{ foo(); }
+	release_period__release_period__safe_period	off__off__contr_off__blocked_a	{ foo(); }
+	release_period__release_period__turn_off	off__off__contr_off__blocked_a	{ foo(); }
+	release_period__release_period__standby_t	off__off__contr_off__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__blocked_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__blocked_a	{ foo(); }
+	release_period__release_period__turn_on	attention__attention__standby__blocked_a	{ foo(); }
+	release_period__release_period__operate_t	off__off__contr_off__blocked_a	{ foo(); }
+}
+off__off__contr_off__blocked_b
+{
+	prepare_period__prepare_period__turn_on	attention__attention__standby__blocked_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	off__off__contr_off__blocked_b	{ foo(); }
+	release_period__prepare_period__turn_on	attention__attention__standby__blocked_b	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__blocked_b	{ foo(); }
+	prepare_period__release_period__operate_t	off__off__contr_off__blocked_b	{ foo(); }
+	prepare_period__prepare_period__safe_period	off__off__contr_off__blocked_b	{ foo(); }
+	release_period__prepare_period__turn_on	attention__attention__standby__blocked_b	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__blocked_b	{ foo(); }
+}
+off__off__contr_off__release_a
+{
+	prepare_period__prepare_period__operate_t	off__off__contr_off__release_a	{ foo(); }
+	prepare_period__prepare_period__standby_t	off__off__contr_off__release_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__release_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__release_a	{ foo(); }
+	prepare_period__prepare_period__safe_period	off__off__contr_off__release_a	{ foo(); }
+	prepare_period__release_period__turn_on	attention__attention__standby__release_a	{ foo(); }
+	release_period__prepare_period__operate_t	off__off__contr_off__release_a	{ foo(); }
+	release_period__prepare_period__turn_on	attention__attention__standby__release_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__release_a	{ foo(); }
+	prepare_period__release_period__operate_t	off__off__contr_off__release_a	{ foo(); }
+}
+off__off__contr_off__release_b
+{
+	prepare_period__prepare_period__turn_on	attention__attention__standby__release_b	{ foo(); }
+	release_period__prepare_period__turn_on	attention__attention__standby__release_b	{ foo(); }
+	prepare_period__prepare_period__safe_period	off__off__contr_off__release_b	{ foo(); }
+	prepare_period__release_period__operate_t	off__off__contr_off__release_b	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__release_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	off__off__contr_off__release_b	{ foo(); }
+	prepare_period__prepare_period__operate_t	off__off__contr_off__release_b	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__release_b	{ foo(); }
+	prepare_period__release_period__turn_on	attention__attention__standby__release_b	{ foo(); }
+	release_period__prepare_period__turn_on	attention__attention__standby__release_b	{ foo(); }
+}
+off__off__contr_off__released_a
+{
+	prepare_period__prepare_period__turn_on	attention__attention__standby__released_a	{ foo(); }
+	prepare_period__release_period__turn_on	attention__attention__standby__released_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__released_a	{ foo(); }
+	prepare_period__prepare_period__safe_period	off__off__contr_off__released_a	{ foo(); }
+	prepare_period__prepare_period__standby_t	off__off__contr_off__released_a	{ foo(); }
+	release_period__prepare_period__operate_t	off__off__contr_off__released_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__released_a	{ foo(); }
+	prepare_period__release_period__turn_on	attention__attention__standby__released_a	{ foo(); }
+	release_period__prepare_period__turn_on	attention__attention__standby__released_a	{ foo(); }
+}
+off__off__contr_off__released_b
+{
+	prepare_period__prepare_period__turn_on	attention__attention__standby__released_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	off__off__contr_off__released_b	{ foo(); }
+	prepare_period__release_period__turn_on	attention__attention__standby__released_b	{ foo(); }
+	release_period__prepare_period__turn_on	attention__attention__standby__released_b	{ foo(); }
+	prepare_period__prepare_period__safe_period	off__off__contr_off__released_b	{ foo(); }
+	prepare_period__prepare_period__turn_off	off__off__contr_off__released_b	{ foo(); }
+	prepare_period__release_period__turn_on	attention__attention__standby__released_b	{ foo(); }
+	release_period__prepare_period__operate_t	off__off__contr_off__released_b	{ foo(); }
+	prepare_period__prepare_period__turn_on	attention__attention__standby__released_b	{ foo(); }
+}
+prepare_block__blocked__operate__released_a
+{
+	prepare_period____operate_t	blocked__blocked__operate__blocked_b	{ foo(); }
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_b	{ foo(); }
+	prepare_period__prepare_period__safe_period	blocked__blocked__operate__blocked_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__released_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	blocked__blocked__operate__blocked_b	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__released_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	blocked__blocked__operate__blocked_b	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__released_a	{ foo(); }
+	release_period__release_period__turn_on	prepare_block__blocked__operate__released_a	{ foo(); }
+	release_period__prepare_period__operate_t	prepare_block__blocked__operate__released_a	{ foo(); }
+	prepare_period__release_period__safe_period	blocked__blocked__operate__blocked_b	{ foo(); }
+	prepare_period__release_period__operate_t	blocked__blocked__operate__blocked_b	{ foo(); }
+	release_period__prepare_period__turn_off	prepare_block__blocked__operate__released_a	{ foo(); }
+	release_period__release_period__turn_off	prepare_block__blocked__operate__released_a	{ foo(); }
+	release_period__prepare_period__safe_period	prepare_block__blocked__operate__released_a	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__released_a	{ foo(); }
+	release_period__release_period__safe_period	prepare_block__blocked__operate__released_a	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__released_a	{ foo(); }
+	prepare_period__release_period__turn_on	blocked__blocked__operate__blocked_b	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__released_a	{ foo(); }
+	release_period__prepare_period__turn_on	prepare_block__blocked__operate__released_a	{ foo(); }
+	prepare_period__release_period__turn_off	blocked__blocked__operate__blocked_b	{ foo(); }
+	prepare_period__prepare_period__operate_t	blocked__blocked__operate__blocked_b	{ foo(); }
+}
+released__blocked__operate__release_a
+{
+	release_period____operate_t	prepare_block__blocked__operate__released_a	{ foo(); }
+	release_period__prepare_period__turn_off	prepare_block__blocked__operate__released_a	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__release_a	{ foo(); }
+	prepare_period__prepare_period__turn_on	released__blocked__operate__release_a	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__release_a	{ foo(); }
+	release_period__prepare_period__safe_period	prepare_block__blocked__operate__released_a	{ foo(); }
+	release_period__prepare_period__operate_t	prepare_block__blocked__operate__released_a	{ foo(); }
+	prepare_period__prepare_period__turn_off	released__blocked__operate__release_a	{ foo(); }
+	release_period__release_period__turn_off	prepare_block__blocked__operate__released_a	{ foo(); }
+	release_period__prepare_period__turn_on	prepare_block__blocked__operate__released_a	{ foo(); }
+	release_period__release_period__safe_period	prepare_block__blocked__operate__released_a	{ foo(); }
+	prepare_period__prepare_period__safe_period	released__blocked__operate__release_a	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__release_a	{ foo(); }
+	prepare_period__release_period__turn_on	released__blocked__operate__release_a	{ foo(); }
+	release_period__release_period__operate_t	prepare_block__blocked__operate__released_a	{ foo(); }
+	prepare_period__release_period__safe_period	released__blocked__operate__release_a	{ foo(); }
+	prepare_period__release_period__turn_off	released__blocked__operate__release_a	{ foo(); }
+	prepare_period__prepare_period__standby_t	attention__attention__standby__release_a	{ foo(); }
+	prepare_period__release_period__operate_t	released__blocked__operate__release_a	{ foo(); }
+	release_period__release_period__standby_t	attention__attention__standby__release_a	{ foo(); }
+	release_period__prepare_period__standby_t	attention__attention__standby__release_a	{ foo(); }
+	prepare_period__release_period__standby_t	attention__attention__standby__release_a	{ foo(); }
+	release_period__prepare_period__operate_t	prepare_block__blocked__operate__released_a	{ foo(); }
+	prepare_period__prepare_period__operate_t	released__blocked__operate__release_a	{ foo(); }
 }
 %%
