@@ -26,8 +26,6 @@ import net.sf.smc.model.SmcState;
 import net.sf.smc.model.SmcTransition;
 import net.sf.smc.model.TargetLanguage;
 import net.sf.smc.parser.SmcParser;
-import util.FSMAutomatonBuilder;
-import util.FSMState;
 
 public class FSMAutomatonBuilderWithCondition extends FSMAutomatonBuilder {
 
