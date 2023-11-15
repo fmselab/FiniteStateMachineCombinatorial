@@ -19,6 +19,7 @@ import enums.Length;
 import enums.Mode;
 import enums.Strength;
 import featuremodels.specificity.BDDCITTestGenerator;
+import util.FSMAutomatonBuilderWithCondition;
 import util.Utils;
 
 public class FTSTester {
@@ -63,7 +64,7 @@ public class FTSTester {
 				if (ConfigurationData.MODALITY == Mode.ONLY_CONSTRAINT) {
 					// Collecting and Conversion into the message format
 					sequences = new HashSet<String>(Utils.collecting(fullSystemAutomaton, automatonListForTRecognition,
-							ConfigurationData.MONITORING_ENABLED));
+							ConfigurationData.MONITORING_ENABLED, ConfigurationData.MAX_STATES, ConfigurationData.AUTOMATONS_PER_BATCH));
 					SequenceBuilder.createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
 				}
 

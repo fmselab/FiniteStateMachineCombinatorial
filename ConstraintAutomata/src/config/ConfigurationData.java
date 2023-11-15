@@ -20,9 +20,6 @@ public class ConfigurationData {
 	public static String SEQ_FILE = 
 			"data/Sequences.txt";
 	
-	public final static String LOG_FILE = 
-			"data/logFile.txt";
-	
 	public final static String RESULTS_FILE = 
 			"data/ResultFile_" + PROJECT_NAME;
 	

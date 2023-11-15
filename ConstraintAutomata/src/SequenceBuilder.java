@@ -155,7 +155,8 @@ public class SequenceBuilder {
 			throws IOException {
 		return ConfigurationData.TEST_STRENGHT == Strength.PAIR_WISE
 				? getAutomatonList(getMsgCouples(Utils.getSystemMessages(ConfigurationData.MESSAGES_FILE), msgsMapping))
-				: getAutomatonListForTriads(getMsgTriads(Utils.getSystemMessages(ConfigurationData.MESSAGES_FILE), msgsMapping));
+				: getAutomatonListForTriads(
+						getMsgTriads(Utils.getSystemMessages(ConfigurationData.MESSAGES_FILE), msgsMapping));
 	}
 
 	/**
@@ -194,31 +195,35 @@ public class SequenceBuilder {
 			long start = System.currentTimeMillis();
 
 			try {
-				//fullSystemAutomaton = FSMAutomatonBuilder.buildFSMAutomatonFromTXT(msgsMapping);
-				fullSystemAutomaton = FSMAutomatonBuilder.buildFSMAutomatonFromSMC(msgsMapping);
+				// fullSystemAutomaton =
+				// FSMAutomatonBuilder.buildFSMAutomatonFromTXT(msgsMapping);
+				fullSystemAutomaton = FSMAutomatonBuilder.buildFSMAutomatonFromSMC(msgsMapping,
+						ConfigurationData.FSM_FILE, ConfigurationData.PROJECT_NAME, ConfigurationData.MESSAGES_FILE);
 				// List of the Automatons for the recognition of each T-Combination
 				automatonListForTRecognition = getAutomatonListForTRecognition(msgsMapping);
 
 				if (ConfigurationData.LOAD_SCA) {
 					sequences = Utils.mapSCAIntoString(msgsMapping, ConfigurationData.SCA_FILE);
-				}
-				else {
+				} else {
 					if (ConfigurationData.MODALITY == Mode.ONLY_CONSTRAINT) {
 						// Collecting and Conversion into the message format
-						sequences = new HashSet<String>(
-								Utils.collecting(fullSystemAutomaton, automatonListForTRecognition, ConfigurationData.MONITORING_ENABLED));
+						sequences = new HashSet<String>(Utils.collecting(fullSystemAutomaton,
+								automatonListForTRecognition, ConfigurationData.MONITORING_ENABLED,
+								ConfigurationData.MAX_STATES, ConfigurationData.AUTOMATONS_PER_BATCH));
 						createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
 					}
-	
+
 					if (ConfigurationData.MODALITY == Mode.STANDARD_CIT) {
-						sequences = new HashSet<String>(Utils.sequencesStandardCIT(automatonListForTRecognition, ConfigurationData.MONITORING_ENABLED, ConfigurationData.AUTOMATONS_PER_BATCH));
+						sequences = new HashSet<String>(Utils.sequencesStandardCIT(automatonListForTRecognition,
+								ConfigurationData.MONITORING_ENABLED, ConfigurationData.AUTOMATONS_PER_BATCH));
 						createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
 					}
-					
+
 					if (ConfigurationData.MODALITY == Mode.TRANSITIONS_COVERAGE) {
-						sequences = new HashSet<String>(getSequencesForTransitionCoverage(ConfigurationData.STARTING_STATE, ConfigurationData.SPLIT_SEQ));
+						sequences = new HashSet<String>(getSequencesForTransitionCoverage(
+								ConfigurationData.STARTING_STATE, ConfigurationData.SPLIT_SEQ));
 					}
-					
+
 					if (ConfigurationData.MODALITY == Mode.STATES_COVERAGE) {
 						sequences = new HashSet<String>(getSequencesForStateCoverage(ConfigurationData.STARTING_STATE));
 					}
@@ -246,13 +251,16 @@ public class SequenceBuilder {
 				fout.write("Automatons per batch: " + ConfigurationData.AUTOMATONS_PER_BATCH + "\n");
 				fout.write("Total number of transitions: " + fullSystemAutomaton.getNumberOfTransitions() + "\n");
 				fout.write("Total number of states: " + fullSystemAutomaton.getNumberOfStates() + "\n");
-				fout.write("Total number of events: " + (msgsMapping.containsKey("NO RESPONSE") ? msgsMapping.size()-1 : msgsMapping.size()) + "\n");
+				fout.write("Total number of events: "
+						+ (msgsMapping.containsKey("NO RESPONSE") ? msgsMapping.size() - 1 : msgsMapping.size())
+						+ "\n");
 				fout.write("Total number of "
 						+ ((ConfigurationData.TEST_STRENGHT == Strength.PAIR_WISE) ? "pairs" : "triads") + ": "
 						+ automatonListForTRecognition.size() + "\n");
 				fout.write("Total number of valid "
 						+ ((ConfigurationData.TEST_STRENGHT == Strength.PAIR_WISE) ? "pairs" : "triads") + ": "
-						+ Utils.getNumberOfValidTCombinations(automatonListForTRecognition, fullSystemAutomaton) + "\n");
+						+ Utils.getNumberOfValidTCombinations(automatonListForTRecognition, fullSystemAutomaton)
+						+ "\n");
 				fout.write("-----");
 				fout.write("Number of sequences: " + sequences.size() + "\n");
 				fout.write("Max sequence length: " + Utils.getLength(sequences, Length.MAX) + "\n");
@@ -266,10 +274,10 @@ public class SequenceBuilder {
 						+ Utils.getNumberOfTCombinationCovered(sequences, automatonListForTRecognition,
 								fullSystemAutomaton, ConfigurationData.REPAIR_MODALITY)
 						+ "\n");
-				fout.write("Number of covered states: " + Utils.getNumberOfStatesCovered(sequences, fullSystemAutomaton, ConfigurationData.REPAIR_MODALITY)
-						+ "\n");
-				fout.write("Number of covered transitions: "
-						+ Utils.getNumberOfTransitionsCovered(sequences, fullSystemAutomaton, ConfigurationData.REPAIR_MODALITY) + "\n");
+				fout.write("Number of covered states: " + Utils.getNumberOfStatesCovered(sequences, fullSystemAutomaton,
+						ConfigurationData.REPAIR_MODALITY) + "\n");
+				fout.write("Number of covered transitions: " + Utils.getNumberOfTransitionsCovered(sequences,
+						fullSystemAutomaton, ConfigurationData.REPAIR_MODALITY) + "\n");
 				fout.write("Generation time [s]: " + ((System.currentTimeMillis() - start) / 1000F));
 				fout.close();
 			} catch (IOException e) {
@@ -279,150 +287,161 @@ public class SequenceBuilder {
 	}
 
 	/**
-	 * Merthod used to generate the test sequence that guarantee the Transition Coverage. 
-	 * It is guaranteed by solving the ChinesePostmanProblem, that is also called Route Inspection Problem:
-	 * all the transitions in a graph must be executed at least once.
+	 * Merthod used to generate the test sequence that guarantee the Transition
+	 * Coverage. It is guaranteed by solving the ChinesePostmanProblem, that is also
+	 * called Route Inspection Problem: all the transitions in a graph must be
+	 * executed at least once.
 	 * 
 	 * @param fromState is the name of the state from which the test must start.
-	 * @return the ArrrayList containing the test sequence that covers all the transitions in the graph
+	 * @return the ArrrayList containing the test sequence that covers all the
+	 *         transitions in the graph
 	 */
-	static ArrayList<String> getSequencesForTransitionCoverage(String fromState, Boolean split) throws IllegalAccessException, InvocationTargetException, IOException {
+	static ArrayList<String> getSequencesForTransitionCoverage(String fromState, Boolean split)
+			throws IllegalAccessException, InvocationTargetException, IOException {
 		ArrayList<Pair<Integer, String>> msgsIntegerMapping = new ArrayList<>();
 		// Convert the SMC into the corresponding JGraphT
-		Graph<String, Integer> automatonGraph = FSMAutomatonBuilder.convertSMCToGraph(msgsIntegerMapping);		
+		Graph<String, Integer> automatonGraph = FSMAutomatonBuilder.convertSMCToGraph(msgsIntegerMapping,
+				ConfigurationData.FSM_FILE, ConfigurationData.PROJECT_NAME);
 		String resultList;
 		ArrayList<String> lst = new ArrayList<String>();
-		
+
 		// Check if the graph is strongly connected and generate the test sequence ->
-		// We must have a Strongly Connected graph since the ChinesePostman problem is solved only for this kind 
+		// We must have a Strongly Connected graph since the ChinesePostman problem is
+		// solved only for this kind
 		// of graphs
-		if (GraphTests.isStronglyConnected(automatonGraph)) {	
-			ChinesePostman<String,Integer> visitCFP = new ChinesePostman<>();
+		if (GraphTests.isStronglyConnected(automatonGraph)) {
+			ChinesePostman<String, Integer> visitCFP = new ChinesePostman<>();
 			GraphPath<String, Integer> sol = visitCFP.getCPPSolution(automatonGraph);
-			
-			// Since we want to start from a specific state, shift the event into the result list
+
+			// Since we want to start from a specific state, shift the event into the result
+			// list
 			resultList = "";
 			List<Integer> edgeList = sol.getEdgeList();
-			List<String> vertexList = sol.getVertexList();			
+			List<String> vertexList = sol.getVertexList();
 			int lastIndexOfUnassociated = vertexList.lastIndexOf(fromState);
-			
+
 			List<Integer> shiftedEdgeList = edgeList.subList(lastIndexOfUnassociated, edgeList.size());
 			shiftedEdgeList.addAll(edgeList.subList(0, lastIndexOfUnassociated));
 			List<String> shiftedVertexList = vertexList.subList(lastIndexOfUnassociated, vertexList.size());
 			shiftedVertexList.addAll(vertexList.subList(0, lastIndexOfUnassociated));
-			
+
 			// Check if the sequence has to be splitted
 			if (!split) {
-				for (Integer msg : shiftedEdgeList) 
-					resultList += decodeMessage(msg,msgsIntegerMapping) + " ";
-			
+				for (Integer msg : shiftedEdgeList)
+					resultList += decodeMessage(msg, msgsIntegerMapping) + " ";
+
 				lst.add(resultList);
 			} else {
 				resultList = ConfigurationData.RESET_MSG + " ";
-				
-				for(int i=0; i<shiftedEdgeList.size(); i++) {
-					resultList += decodeMessage(shiftedEdgeList.get(i),msgsIntegerMapping) + " ";
-					
-					if (shiftedVertexList.get(i+1).equals(fromState)) {
+
+				for (int i = 0; i < shiftedEdgeList.size(); i++) {
+					resultList += decodeMessage(shiftedEdgeList.get(i), msgsIntegerMapping) + " ";
+
+					if (shiftedVertexList.get(i + 1).equals(fromState)) {
 						lst.add(resultList);
 						resultList = ConfigurationData.RESET_MSG + " ";
 					}
-						
+
 				}
 			}
-		}	
-		
+		}
+
 		return lst;
 	}
-	
-	
+
 	/**
-	 * Since we had some problem with using Strings for transition, we managed to use Integers numbers instead
-	 * of the string description of the message. Thus we need a function to convert Integers into the corresponding
-	 * String when generating the test sequence
+	 * Since we had some problem with using Strings for transition, we managed to
+	 * use Integers numbers instead of the string description of the message. Thus
+	 * we need a function to convert Integers into the corresponding String when
+	 * generating the test sequence
 	 * 
-	 * @param message	: the message to be converted
-	 * @param list		: the list of the mappings 
-	 * @return			the String representing the message
+	 * @param message : the message to be converted
+	 * @param list    : the list of the mappings
+	 * @return the String representing the message
 	 */
 	private static String decodeMessage(Integer message, ArrayList<Pair<Integer, String>> list) {
-		for (int i = 0; i<list.size(); i++) {
+		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getKey() == message) {
 				return list.get(i).getValue();
 			}
 		}
 		return "";
 	}
-	
+
 	/**
-	 * Merthod used to generate the test sequence that guarantee the State Coverage. 
-	 * It is guaranteed by solving the TravellingSalesmanProblem:
-	 * all the states in a graph must be visited at least once.
+	 * Merthod used to generate the test sequence that guarantee the State Coverage.
+	 * It is guaranteed by solving the TravellingSalesmanProblem: all the states in
+	 * a graph must be visited at least once.
 	 * 
 	 * @param fromState is the name of the state from which the test must start.
-	 * @return the ArrrayList containing the test sequence that covers all the transitions in the graph
+	 * @return the ArrrayList containing the test sequence that covers all the
+	 *         transitions in the graph
 	 */
-	static ArrayList<String> getSequencesForStateCoverage(String fromState) throws IllegalAccessException, InvocationTargetException, IOException {
+	static ArrayList<String> getSequencesForStateCoverage(String fromState)
+			throws IllegalAccessException, InvocationTargetException, IOException {
 		ArrayList<Pair<Integer, String>> msgsIntegerMapping = new ArrayList<>();
 		// Convert the SMC into the corresponding JGraphT
-		Graph<String, Integer> automatonGraph = FSMAutomatonBuilder.convertSMCToGraph(msgsIntegerMapping);		
+		Graph<String, Integer> automatonGraph = FSMAutomatonBuilder.convertSMCToGraph(msgsIntegerMapping,
+				ConfigurationData.FSM_FILE, ConfigurationData.PROJECT_NAME);
 		String resultList;
 		ArrayList<String> lst = new ArrayList<String>();
-		
-		// Check if the graph has at least a single vertex since the TSP is solved only for this kind 
+
+		// Check if the graph has at least a single vertex since the TSP is solved only
+		// for this kind
 		// of graphs
-		if (automatonGraph.vertexSet().size()>0) {	
-			HeldKarpTSP<String,Integer> visitTSP = new HeldKarpTSP<>();
-			
-			DOTExporter<String, Integer> exporter=new DOTExporter<>();
+		if (automatonGraph.vertexSet().size() > 0) {
+			HeldKarpTSP<String, Integer> visitTSP = new HeldKarpTSP<>();
+
+			DOTExporter<String, Integer> exporter = new DOTExporter<>();
 			Writer writer = new StringWriter();
 			exporter.exportGraph(automatonGraph, writer);
 			System.out.println(writer.toString());
-			
+
 			GraphPath<String, Integer> sol;
 			sol = visitTSP.getTour(automatonGraph);
-			
+
 			List<Integer> edgeList = new ArrayList<>();
 			List<String> vertexList = new ArrayList<>();
-			int lastIndexOfUnassociated = 0; 
+			int lastIndexOfUnassociated = 0;
 			resultList = "";
-			
+
 			if (sol != null) {
-				// Since we want to start from a specific state, shift the event into the result list
+				// Since we want to start from a specific state, shift the event into the result
+				// list
 				edgeList = sol.getEdgeList();
-				vertexList = sol.getVertexList();			
+				vertexList = sol.getVertexList();
 				lastIndexOfUnassociated = vertexList.lastIndexOf(fromState);
 			}
 			{
 				// TSP is not computable -> Simulate the shortest path by using Dijkstra
 				Set<String> vertexSet = automatonGraph.vertexSet();
 				DijkstraShortestPath<String, Integer> path = new DijkstraShortestPath<String, Integer>(automatonGraph);
-				
+
 				// Add step by step all the states
 				for (String s : vertexSet) {
-					String initial = (vertexList.size() > 0) ? vertexList.get(vertexList.size()-1) : fromState;
+					String initial = (vertexList.size() > 0) ? vertexList.get(vertexList.size() - 1) : fromState;
 					sol = path.getPath(initial, s);
-					
+
 					edgeList.addAll(sol.getEdgeList());
-					vertexList.addAll(sol.getVertexList());				
+					vertexList.addAll(sol.getVertexList());
 				}
-				
+
 				// Come back to the initial state
-				sol = path.getPath(vertexList.get(vertexList.size()-1), fromState);
-				
+				sol = path.getPath(vertexList.get(vertexList.size() - 1), fromState);
+
 				edgeList.addAll(sol.getEdgeList());
-				vertexList.addAll(sol.getVertexList());				
+				vertexList.addAll(sol.getVertexList());
 			}
-					
+
 			List<Integer> shiftedEdgeList = edgeList.subList(lastIndexOfUnassociated, edgeList.size());
 			shiftedEdgeList.addAll(edgeList.subList(0, lastIndexOfUnassociated));
-			
-			for (Integer msg : shiftedEdgeList) 
-				resultList += decodeMessage(msg,msgsIntegerMapping) + " ";
-			
+
+			for (Integer msg : shiftedEdgeList)
+				resultList += decodeMessage(msg, msgsIntegerMapping) + " ";
+
 			lst.add(resultList);
-		}	
-		
+		}
+
 		return lst;
 	}
 

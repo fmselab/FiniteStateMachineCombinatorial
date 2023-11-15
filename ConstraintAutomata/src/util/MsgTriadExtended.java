@@ -1,9 +1,19 @@
 package util;
-public class MsgTriadExtended<T,K,V,Z,X> extends MsgTriad<T,K,Z> {
-		
+
+/**
+ * Class representing a triad of messages, with two events among them
+ * 
+ * @param <T> the type of the first message
+ * @param <K> the type of the second message
+ * @param <Z> the type of the third message
+ * @param <V> the type of the first event
+ * @param <X> the type of the second event
+ */
+public class MsgTriadExtended<T, K, V, Z, X> extends MsgTriad<T, K, Z> {
+
 	private V event;
 	private X secondEvent;
-		
+
 	public MsgTriadExtended(T first, K second, V event, Z third, X secondEvent) {
 		super(first, second, third);
 		this.event = event;
@@ -24,11 +34,11 @@ public class MsgTriadExtended<T,K,V,Z,X> extends MsgTriad<T,K,Z> {
 
 	public void setEvent(V event) {
 		this.event = event;
-	}	
-	
+	}
+
 	public String toString() {
-		return "1: (" + first.toString() + " - " + second.toString() + ") with " + event.toString() + "\n" + 
-				"2: (" + second.toString() + " - " + third.toString() + ") with " + secondEvent.toString() + "\n"; 
+		return "1: (" + first.toString() + " - " + second.toString() + ") with " + event.toString() + "\n" + "2: ("
+				+ second.toString() + " - " + third.toString() + ") with " + secondEvent.toString() + "\n";
 	}
 
 	@Override

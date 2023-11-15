@@ -1,25 +1,33 @@
 package util;
-public class MsgTriad<T,K,Z> extends MsgPair<T,K> {
-		
+
+/**
+ * Class representing a triad of messages
+ * 
+ * @param <T> the type of the first message
+ * @param <K> the type of the second message
+ * @param <Z> the type of the third message
+ */
+public class MsgTriad<T, K, Z> extends MsgPair<T, K> {
+
 	protected Z third;
-		
+
 	public MsgTriad(T first, K second, Z third) {
 		super(first, second);
 		this.third = third;
 	}
-	
+
 	public Z getThird() {
 		return third;
 	}
 
 	public void setThird(Z third) {
 		this.third = third;
-	}	
-	
-	public String toString() {
-		return "(" + first.toString() + " - " + second.toString() + " - " + third.toString() + ")"; 
 	}
-	
+
+	public String toString() {
+		return "(" + first.toString() + " - " + second.toString() + " - " + third.toString() + ")";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

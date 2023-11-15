@@ -1,29 +1,33 @@
 package util;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import org.apache.log4j.Logger;
+
 import com.google.common.collect.BiMap;
 
-import config.ConfigurationData;
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.State;
 import enums.Length;
 import enums.ReparationMode;
 
+/**
+ * The Class Utils contains some utility functions, used by the automata-based
+ * approach
+ */
 public class Utils {
 
 	/**
-	 * Function that reads the list of the messages from an input text file
-	 * 
+	 * Function that reads the list of the messages from an input text file.
+	 *
 	 * @param fileName the name of the file containing the messages
-	 * 
 	 * @return the list of the possible messages
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public static ArrayList<String> getSystemMessages(String fileName) throws IOException {
 		ArrayList<String> msgList = new ArrayList<>();
@@ -51,12 +55,14 @@ public class Utils {
 
 	/**
 	 * Function that loads the SCAs and returns the sequences mapped with letters
-	 * instead of numbers
-	 * 
+	 * instead of numbers.
+	 *
 	 * @param msgsMapping the map mapping each message on a single character
 	 * @param scaFilePath the path of the file containing sequence covering arrays
-	 * 
-	 * @ returns the list of sequences
+	 * @return the hash set of strings corresponding to the content of the given
+	 *         scaFilePath
+	 * @throws IOException Signals that an I/O exception has occurred. @ returns the
+	 *                     list of sequences
 	 */
 	public static HashSet<String> mapSCAIntoString(BiMap<String, Character> msgsMapping, String scaFilePath)
 			throws IOException {
@@ -92,49 +98,35 @@ public class Utils {
 
 	/**
 	 * Function verifying whether is possible the intersection between two
-	 * automatons
-	 * 
-	 * @param full : the automaton of the full system
-	 * @param a    : the automaton of the single couple
+	 * automatons.
+	 *
+	 * @param full the automaton of the full system
+	 * @param a    the automaton of the single couple
 	 * @return "true" if the intersection is possible, "false" otherwise
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public static boolean isInteresctionPossible(Automaton full, Automaton a) throws IOException {
-		String shortestExample2 = full.intersection(a).getShortestExample(true);
-		return (shortestExample2 != "" && shortestExample2 != null) ? true : false;
-	}
-	
-	/**
-	 * Function verifying whether is possible the intersection between two
-	 * automatons
-	 * 
-	 * @param full : the automaton of the full system
-	 * @param a    : the automaton of the single couple
-	 * @return "true" if the intersection is possible, "false" otherwise
-	 * @throws IOException
-	 */
-	public static boolean isInteresctionPossible(Automaton full, Automaton a, String logFilePath) throws IOException {
-		FileWriter flog = new FileWriter(logFilePath, true);
-		flog.write("Check intersection between " + full.toString() + " and " + a.toString());
+		// Logger
+		Logger logger = Logger.getLogger(FSMAutomatonBuilder.class);
+		logger.debug("Check intersection between " + full.toString() + " and " + a.toString());
 		String shortestExample2 = full.intersection(a).getShortestExample(true);
 
 		if (shortestExample2 != "" && shortestExample2 != null)
-			flog.write("Intersection possible");
+			logger.debug("Intersection possible");
 		else
-			flog.write("Intersection not possible");
+			logger.debug("Intersection not possible");
 
-		flog.close();
 		return (shortestExample2 != "" && shortestExample2 != null) ? true : false;
 	}
 
 	/**
 	 * Function executing the MONITORING Procedure: given the list of the remaining
 	 * pairs that have to be recognized, this procedure checks if the string already
-	 * satisfy some other constraints
-	 * 
-	 * @param automatonList        : the list of the automatons that recognize the
+	 * satisfy some other constraints.
+	 *
+	 * @param automatonList        the list of the automatons that recognize the
 	 *                             couples
-	 * @param stringToBeRecognised : string of the example
+	 * @param stringToBeRecognized the string to be recognized
 	 */
 	public static void monitoring(ArrayList<Automaton> automatonList, String stringToBeRecognized) {
 		@SuppressWarnings("unchecked")
@@ -147,18 +139,20 @@ public class Utils {
 	}
 
 	/**
-	 * Collecting operation to create the shortest sequences of messages possible
-	 * 
-	 * @param fullSystemAutomaton             : automaton representing the FSM -
-	 *                                        Full System
-	 * @param automatonListForPairRecognition : list of the automatons for each
-	 *                                        couple of messages
-	 * @return : the list of the test strings
-	 * @throws IOException
+	 * Collecting operation to create the shortest sequences of messages possible.
+	 *
+	 * @param fullSystemAutomaton              : automaton representing the FSM -
+	 *                                         Full System
+	 * @param automatonListForTWiseRecognition the automaton list for T wise
+	 *                                         recognition
+	 * @param useMonitoring                    the use monitoring
+	 * @return the list of the test strings
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@SuppressWarnings("unchecked")
 	public static ArrayList<String> collecting(Automaton fullSystemAutomaton,
-			ArrayList<Automaton> automatonListForTWiseRecognition, Boolean useMonitoring) throws IOException {
+			ArrayList<Automaton> automatonListForTWiseRecognition, Boolean useMonitoring, int nMaxStates,
+			int nMaxAutomatonsPerBatch) throws IOException {
 		ArrayList<String> stringList = new ArrayList<String>();
 		ArrayList<Automaton> temp = new ArrayList<Automaton>();
 		temp = (ArrayList<Automaton>) automatonListForTWiseRecognition.clone();
@@ -192,8 +186,7 @@ public class Utils {
 						temp2.remove(a);
 				}
 				// Limit the size of the intersection Automaton
-				if (tempFullSystem.getNumberOfStates() >= ConfigurationData.MAX_STATES
-						|| i >= ConfigurationData.AUTOMATONS_PER_BATCH) {
+				if (tempFullSystem.getNumberOfStates() >= nMaxStates || i >= nMaxAutomatonsPerBatch) {
 					i = 0;
 					break;
 				}
@@ -218,11 +211,10 @@ public class Utils {
 	}
 
 	/**
-	 * Max/Min/Avg length in a set of sequences
-	 * 
-	 * @param seq   : the set of sequences
-	 * @param which : the type ot the required length
-	 * 
+	 * Max/Min/Avg length in a set of sequences.
+	 *
+	 * @param seq   the set of sequences
+	 * @param which the type ot the required length
 	 * @return the required length
 	 */
 	public static int getLength(HashSet<String> seq, Length which) {
@@ -270,11 +262,10 @@ public class Utils {
 	}
 
 	/**
-	 * Number of valid sequences
-	 * 
-	 * @param seq  : the set of sequences
-	 * @param full : the automaton of the system
-	 * 
+	 * Number of valid sequences.
+	 *
+	 * @param seq  the set of sequences
+	 * @param full the automaton of the system
 	 * @return the number of accepted sequences
 	 */
 	public static int getNumberOfValidSequences(HashSet<String> seq, Automaton full) {
@@ -287,11 +278,11 @@ public class Utils {
 	}
 
 	/**
-	 * Number of states covered by the set of sequences
-	 * 
-	 * @param seq  : the set of sequences
-	 * @param full : the automaton of the system
-	 * 
+	 * Number of states covered by the set of sequences.
+	 *
+	 * @param seq        the set of sequences
+	 * @param full       the automaton of the system
+	 * @param repairMode the repair mode
 	 * @return the number of states covered
 	 */
 	public static int getNumberOfStatesCovered(HashSet<String> seq, Automaton full, ReparationMode repairMode) {
@@ -317,11 +308,11 @@ public class Utils {
 	}
 
 	/**
-	 * Number of transitions covered by the set of sequences
-	 * 
-	 * @param seq  : the set of sequences
-	 * @param full : the automaton of the system
-	 * 
+	 * Number of transitions covered by the set of sequences.
+	 *
+	 * @param seq        the set of sequences
+	 * @param full       the automaton of the system
+	 * @param repairMode the repair mode
 	 * @return the number of transitions covered
 	 */
 	public static int getNumberOfTransitionsCovered(HashSet<String> seq, Automaton full, ReparationMode repairMode) {
@@ -356,12 +347,14 @@ public class Utils {
 	}
 
 	/**
-	 * Operation to create the sequences using the standard CIT approach
-	 * 
-	 * @param automatonListForTRecognition : list of the automatons for each
+	 * Operation to create the sequences using the standard CIT approach.
+	 *
+	 * @param automatonListForTRecognition list of the automatons for each
 	 *                                     T-Combination of messages
+	 * @param useMonitoring                use monitoring or not?
+	 * @param nMaxAutomatonsPerBatch       the n max automatons per batch
 	 * @return : the list of the test strings
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@SuppressWarnings("unchecked")
 	public static ArrayList<String> sequencesStandardCIT(ArrayList<Automaton> automatonListForTRecognition,
@@ -392,11 +385,11 @@ public class Utils {
 	}
 
 	/**
-	 * Function to repair the sequence
-	 * 
-	 * @param seq  : the set of sequences
-	 * @param full : the automaton of the system
-	 * 
+	 * Function to repair the sequence.
+	 *
+	 * @param seq                 the set of sequences
+	 * @param fullSystemAutomaton the full system automaton
+	 * @param repairMode          the repair mode
 	 * @return the repaired sequence
 	 */
 	public static String repairSequence(String seq, Automaton fullSystemAutomaton, ReparationMode repairMode) {
@@ -427,14 +420,13 @@ public class Utils {
 	}
 
 	/**
-	 * Function compute the number of T-combination couples
-	 * 
-	 * @param sequences                    : the set of sequences
-	 * @param automatonListForTRecognition : the list of the automatons for each
+	 * Function compute the number of T-combination couples.
+	 *
+	 * @param sequences                    the set of sequences
+	 * @param automatonListForTRecognition the list of the automatons for each
 	 *                                     T-combination recognition
-	 * @param fullSystemAutomaton
-	 * @param full                         : the automaton of the full system
-	 * 
+	 * @param fullSystemAutomaton          the full system automaton
+	 * @param repairingMode                the repairing mode
 	 * @return the number of covered T-combination
 	 */
 	@SuppressWarnings("unchecked")
@@ -461,12 +453,11 @@ public class Utils {
 	}
 
 	/**
-	 * Function compute the number of valid T-combination
-	 * 
-	 * @param automatonListForTRecognition : the list of the automatons for each
+	 * Function compute the number of valid T-combination.
+	 *
+	 * @param automatonListForTRecognition the list of the automatons for each
 	 *                                     T-combination recognition
-	 * @param fullSystemAutomaton          : the automaton of the full system
-	 * 
+	 * @param fullSystemAutomaton          the automaton of the full system
 	 * @return the number of valid T-combination
 	 */
 	public static int getNumberOfValidTCombinations(ArrayList<Automaton> automatonListForTRecognition,

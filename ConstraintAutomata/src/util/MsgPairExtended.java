@@ -1,14 +1,21 @@
 package util;
 
-public class MsgPairExtended<T,K,V> extends MsgPair<T,K> {
-		
+/**
+ * Class representing a pair of messages, with an event
+ * 
+ * @param <T> the type of the first message
+ * @param <K> the type of the second message
+ * @param <V> the tupe of the event
+ */
+public class MsgPairExtended<T, K, V> extends MsgPair<T, K> {
+
 	private V event;
-		
+
 	public MsgPairExtended(T first, K second, V event) {
-		super(first,second);
+		super(first, second);
 		this.event = event;
 	}
-	
+
 	public V getEvent() {
 		return event;
 	}
@@ -16,9 +23,9 @@ public class MsgPairExtended<T,K,V> extends MsgPair<T,K> {
 	public void setEvent(V event) {
 		this.event = event;
 	}
-	
+
 	public String toString() {
-		return "(" + super.getFirst().toString() + " - " + super.getSecond().toString() + ") with " + event.toString(); 
+		return "(" + super.getFirst().toString() + " - " + super.getSecond().toString() + ") with " + event.toString();
 	}
 
 	@Override

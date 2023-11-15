@@ -1,16 +1,22 @@
 package util;
 
-public class MsgPair<T,K> {
-		
+/**
+ * Class representing a pair of messages
+ * 
+ * @param <T> the type of the first message
+ * @param <K> the type of the second message
+ */
+public class MsgPair<T, K> {
+
 	protected T first;
 	protected K second;
-		
+
 	public MsgPair(T first, K second) {
 		super();
 		this.first = first;
 		this.second = second;
 	}
-	
+
 	public T getFirst() {
 		return first;
 	}
@@ -25,12 +31,12 @@ public class MsgPair<T,K> {
 
 	public void setSecond(K second) {
 		this.second = second;
-	}	
-	
-	public String toString() {
-		return "(" + first.toString() + " - " + second.toString() + ")"; 
 	}
-	
+
+	public String toString() {
+		return "(" + first.toString() + " - " + second.toString() + ")";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
