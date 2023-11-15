@@ -1,0 +1,105 @@
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(pay) -> Paid(countCoins)
+Adding new state: Idle(free) -> SelectProduct(noActions)
+Adding new state: Paid(change) -> SelectProdut(giveChange)
+Adding new state: SelectProduct(cancel) -> OperationCancelled(cancelDelivery)
+Adding new state: SelectProduct(soda) -> ServingSoda(serveSoda)
+Adding new state: SelectProduct(tea) -> ServingTea(serveTea)
+Adding new state: OperationCancelled(return) -> Idle(returnCoins)
+Adding new state: ServingSoda(serveSoda) -> ProductDelivered(endServingSoda)
+Adding new state: ServingTea(serveTea) -> ProductDelivered(endServingTea)
+Adding new state: ProductDelivered(open) -> DoorOpen(openDoor)
+Adding new state: ProductDelivered(take) -> Idle(noActions)
+Adding new state: DoorOpen(take) -> ProductTaken(noActions)
+Adding new state: ProductTaken(close) -> Idle(closeDoor)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(pay) -> Paid(countCoins)
+Adding new state: Idle(free) -> SelectProduct(noActions)
+Adding new state: Paid(change) -> SelectProdut(giveChange)
+Adding new state: SelectProduct(cancel) -> OperationCancelled(cancelDelivery)
+Adding new state: SelectProduct(soda) -> ServingSoda(serveSoda)
+Adding new state: SelectProduct(tea) -> ServingTea(serveTea)
+Adding new state: OperationCancelled(return) -> Idle(returnCoins)
+Adding new state: ServingSoda(serveSoda) -> ProductDelivered(endServingSoda)
+Adding new state: ServingTea(serveTea) -> ProductDelivered(endServingTea)
+Adding new state: ProductDelivered(open) -> DoorOpen(openDoor)
+Adding new state: ProductDelivered(take) -> Idle(noActions)
+Adding new state: DoorOpen(take) -> ProductTaken(noActions)
+Adding new state: ProductTaken(close) -> Idle(closeDoor)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(pay) -> Paid(countCoins)
+Adding new state: Idle(free) -> SelectProduct(noActions)
+Adding new state: Paid(change) -> SelectProduct(giveChange)
+Adding new state: SelectProduct(cancel) -> OperationCancelled(cancelDelivery)
+Adding new state: SelectProduct(soda) -> ServingSoda(serveSoda)
+Adding new state: SelectProduct(tea) -> ServingTea(serveTea)
+Adding new state: OperationCancelled(return) -> Idle(returnCoins)
+Adding new state: ServingSoda(serveSoda) -> ProductDelivered(endServingSoda)
+Adding new state: ServingTea(serveTea) -> ProductDelivered(endServingTea)
+Adding new state: ProductDelivered(open) -> DoorOpen(openDoor)
+Adding new state: ProductDelivered(take) -> Idle(noActions)
+Adding new state: DoorOpen(take) -> ProductTaken(noActions)
+Adding new state: ProductTaken(close) -> Idle(closeDoor)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(pay) -> Paid(countCoins)
+Adding new state: Idle(free) -> SelectProduct(noActions)
+Adding new state: Paid(change) -> SelectProduct(giveChange)
+Adding new state: SelectProduct(cancel) -> OperationCancelled(cancelDelivery)
+Adding new state: SelectProduct(soda) -> ServingSoda(serveSoda)
+Adding new state: SelectProduct(tea) -> ServingTea(serveTea)
+Adding new state: OperationCancelled(return) -> Idle(returnCoins)
+Adding new state: ServingSoda(serveSoda) -> ProductDelivered(endServingSoda)
+Adding new state: ServingTea(serveTea) -> ProductDelivered(endServingTea)
+Adding new state: ProductDelivered(open) -> DoorOpen(openDoor)
+Adding new state: ProductDelivered(take) -> Idle(noActions)
+Adding new state: DoorOpen(take) -> ProductTaken(noActions)
+Adding new state: ProductTaken(close) -> Idle(closeDoor)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(pay) -> Paid(countCoins)
+Adding new state: Idle(free) -> SelectProduct(noActions)
+Adding new state: Paid(change) -> SelectProduct(giveChange)
+Adding new state: SelectProduct(cancel) -> OperationCancelled(cancelDelivery)
+Adding new state: SelectProduct(soda) -> ServingSoda(serveSoda)
+Adding new state: SelectProduct(tea) -> ServingTea(serveTea)
+Adding new state: OperationCancelled(return) -> Idle(returnCoins)
+Adding new state: ServingSoda(serveSoda) -> ProductDelivered(endServingSoda)
+Adding new state: ServingTea(serveTea) -> ProductDelivered(endServingTea)
+Adding new state: ProductDelivered(open) -> DoorOpen(openDoor)
+Adding new state: ProductDelivered(take) -> Idle(noActions)
+Adding new state: DoorOpen(take) -> ProductTaken(noActions)
+Adding new state: ProductTaken(close) -> Idle(closeDoor)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(pay) -> Paid(countCoins)
+Adding new state: Paid(change) -> SelectProduct(giveChange)
+Adding new state: ProductDelivered(open) -> DoorOpen(openDoor)
+Adding new state: DoorOpen(take) -> ProductTaken(noActions)
+Adding new state: ProductTaken(close) -> Idle(closeDoor)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM
+----------------------------------CREATING THE FINAL STATE MACHINE
+----------------------------------Adding new state: Idle(pay) -> Paid(countCoins)
+Adding new state: Paid(change) -> SelectProduct(giveChange)
+Adding new state: SelectProduct(soda) -> ServingSoda(serveSoda)
+Adding new state: ServingSoda(serveSoda) -> ProductDelivered(endServingSoda)
+Adding new state: ProductDelivered(open) -> DoorOpen(openDoor)
+Adding new state: DoorOpen(take) -> ProductTaken(noActions)
+Adding new state: ProductTaken(close) -> Idle(closeDoor)
+END: CREATING THE FINAL STATE MACHINE
+----------------------------------CREATING THE AUTOMATON FROM THE FSM
+----------------------------------END: CREATING THE AUTOMATON FROM THE FSM

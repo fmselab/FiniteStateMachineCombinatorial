@@ -1,0 +1,48 @@
+%class VendingMachine
+%package examples
+
+%start MainMap::Idle
+%map MainMap
+
+%%
+Idle
+{
+	pay[VendingMachine && !FreeDrinks]	Paid	{ countCoins(); }
+	free[FreeDrinks]	SelectProduct	{ noActions(); }		
+}
+Paid
+{
+	change[VendingMachine]	SelectProduct	{ giveChange(); }
+}
+SelectProduct
+{
+	cancel[CancelPurchase]	OperationCancelled	{ cancelDelivery(); }
+	soda[Soda]	ServingSoda	{ serveSoda(); }
+	tea[Tea]	ServingTea	{ serveTea(); }
+}
+OperationCancelled
+{
+	return[CancelPurchase]	Idle	{ returnCoins(); }
+} 
+ServingSoda
+{
+	serveSoda[Soda]	ProductDelivered	{ endServingSoda(); }
+}
+ServingTea
+{
+	serveTea[Tea]	ProductDelivered	{ endServingTea(); }
+}
+ProductDelivered
+{
+	open[VendingMachine && !FreeDrinks]	DoorOpen	{ openDoor(); }
+	take[FreeDrinks]	Idle	{ noActions(); }
+}
+DoorOpen
+{
+	take[VendingMachine]	ProductTaken	{ noActions(); }
+}
+ProductTaken
+{
+	close[VendingMachine]	Idle	{ closeDoor(); }
+}
+%%

@@ -6,34 +6,32 @@ import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
-
-import javax.xml.stream.events.StartElement;
-
-import javafx.util.Pair;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.GraphTests;
-import org.jgrapht.alg.connectivity.KosarajuStrongConnectivityInspector;
 import org.jgrapht.alg.cycle.ChinesePostman;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.alg.tour.HeldKarpTSP;
-import org.jgrapht.alg.tour.TwoApproxMetricTSP;
-import org.jgrapht.ListenableGraph;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.nio.dot.DOTExporter;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+
+import config.ConfigurationData;
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;
-import dk.brics.automaton.State;
-import dk.brics.automaton.Transition;
+import enums.Length;
+import enums.Mode;
+import enums.Strength;
+import javafx.util.Pair;
+import util.FSMAutomatonBuilder;
+import util.MsgPair;
+import util.MsgTriad;
+import util.Utils;
 
 public class SequenceBuilder {
 
@@ -156,8 +154,8 @@ public class SequenceBuilder {
 	public static ArrayList<Automaton> getAutomatonListForTRecognition(BiMap<String, Character> msgsMapping)
 			throws IOException {
 		return ConfigurationData.TEST_STRENGHT == Strength.PAIR_WISE
-				? getAutomatonList(getMsgCouples(Utils.getAntidoteMessages(), msgsMapping))
-				: getAutomatonListForTriads(getMsgTriads(Utils.getAntidoteMessages(), msgsMapping));
+				? getAutomatonList(getMsgCouples(Utils.getSystemMessages(ConfigurationData.MESSAGES_FILE), msgsMapping))
+				: getAutomatonListForTriads(getMsgTriads(Utils.getSystemMessages(ConfigurationData.MESSAGES_FILE), msgsMapping));
 	}
 
 	/**
@@ -202,23 +200,23 @@ public class SequenceBuilder {
 				automatonListForTRecognition = getAutomatonListForTRecognition(msgsMapping);
 
 				if (ConfigurationData.LOAD_SCA) {
-					sequences = Utils.mapSCAIntoString(msgsMapping);
+					sequences = Utils.mapSCAIntoString(msgsMapping, ConfigurationData.SCA_FILE);
 				}
 				else {
 					if (ConfigurationData.MODALITY == Mode.ONLY_CONSTRAINT) {
 						// Collecting and Conversion into the message format
 						sequences = new HashSet<String>(
-								Utils.collecting(fullSystemAutomaton, automatonListForTRecognition));
+								Utils.collecting(fullSystemAutomaton, automatonListForTRecognition, ConfigurationData.MONITORING_ENABLED));
 						createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
 					}
 	
 					if (ConfigurationData.MODALITY == Mode.STANDARD_CIT) {
-						sequences = new HashSet<String>(Utils.sequencesStandardCIT(automatonListForTRecognition));
+						sequences = new HashSet<String>(Utils.sequencesStandardCIT(automatonListForTRecognition, ConfigurationData.MONITORING_ENABLED, ConfigurationData.AUTOMATONS_PER_BATCH));
 						createMessageSequences(new ArrayList<String>(sequences), msgsMapping, false);
 					}
 					
 					if (ConfigurationData.MODALITY == Mode.TRANSITIONS_COVERAGE) {
-						sequences = new HashSet<String>(getSequencesForTransitionCoverage(ConfigurationData.STARTING_STATE));
+						sequences = new HashSet<String>(getSequencesForTransitionCoverage(ConfigurationData.STARTING_STATE, ConfigurationData.SPLIT_SEQ));
 					}
 					
 					if (ConfigurationData.MODALITY == Mode.STATES_COVERAGE) {
@@ -266,12 +264,12 @@ public class SequenceBuilder {
 				fout.write("Number of covered "
 						+ ((ConfigurationData.TEST_STRENGHT == Strength.PAIR_WISE) ? "pairs" : "triads") + ": "
 						+ Utils.getNumberOfTCombinationCovered(sequences, automatonListForTRecognition,
-								fullSystemAutomaton)
+								fullSystemAutomaton, ConfigurationData.REPAIR_MODALITY)
 						+ "\n");
-				fout.write("Number of covered states: " + Utils.getNumberOfStatesCovered(sequences, fullSystemAutomaton)
+				fout.write("Number of covered states: " + Utils.getNumberOfStatesCovered(sequences, fullSystemAutomaton, ConfigurationData.REPAIR_MODALITY)
 						+ "\n");
 				fout.write("Number of covered transitions: "
-						+ Utils.getNumberOfTransitionsCovered(sequences, fullSystemAutomaton) + "\n");
+						+ Utils.getNumberOfTransitionsCovered(sequences, fullSystemAutomaton, ConfigurationData.REPAIR_MODALITY) + "\n");
 				fout.write("Generation time [s]: " + ((System.currentTimeMillis() - start) / 1000F));
 				fout.close();
 			} catch (IOException e) {
@@ -288,7 +286,7 @@ public class SequenceBuilder {
 	 * @param fromState is the name of the state from which the test must start.
 	 * @return the ArrrayList containing the test sequence that covers all the transitions in the graph
 	 */
-	private static ArrayList<String> getSequencesForTransitionCoverage(String fromState) throws IllegalAccessException, InvocationTargetException, IOException {
+	static ArrayList<String> getSequencesForTransitionCoverage(String fromState, Boolean split) throws IllegalAccessException, InvocationTargetException, IOException {
 		ArrayList<Pair<Integer, String>> msgsIntegerMapping = new ArrayList<>();
 		// Convert the SMC into the corresponding JGraphT
 		Graph<String, Integer> automatonGraph = FSMAutomatonBuilder.convertSMCToGraph(msgsIntegerMapping);		
@@ -314,7 +312,7 @@ public class SequenceBuilder {
 			shiftedVertexList.addAll(vertexList.subList(0, lastIndexOfUnassociated));
 			
 			// Check if the sequence has to be splitted
-			if (!ConfigurationData.SPLIT_SEQ) {
+			if (!split) {
 				for (Integer msg : shiftedEdgeList) 
 					resultList += decodeMessage(msg,msgsIntegerMapping) + " ";
 			
@@ -364,7 +362,7 @@ public class SequenceBuilder {
 	 * @param fromState is the name of the state from which the test must start.
 	 * @return the ArrrayList containing the test sequence that covers all the transitions in the graph
 	 */
-	private static ArrayList<String> getSequencesForStateCoverage(String fromState) throws IllegalAccessException, InvocationTargetException, IOException {
+	static ArrayList<String> getSequencesForStateCoverage(String fromState) throws IllegalAccessException, InvocationTargetException, IOException {
 		ArrayList<Pair<Integer, String>> msgsIntegerMapping = new ArrayList<>();
 		// Convert the SMC into the corresponding JGraphT
 		Graph<String, Integer> automatonGraph = FSMAutomatonBuilder.convertSMCToGraph(msgsIntegerMapping);		
@@ -398,7 +396,7 @@ public class SequenceBuilder {
 			{
 				// TSP is not computable -> Simulate the shortest path by using Dijkstra
 				Set<String> vertexSet = automatonGraph.vertexSet();
-				DijkstraShortestPath<String, Integer> path = new DijkstraShortestPath(automatonGraph);
+				DijkstraShortestPath<String, Integer> path = new DijkstraShortestPath<String, Integer>(automatonGraph);
 				
 				// Add step by step all the states
 				for (String s : vertexSet) {
