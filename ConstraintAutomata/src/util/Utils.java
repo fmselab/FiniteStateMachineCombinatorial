@@ -856,7 +856,7 @@ public class Utils {
 			shiftedVertexList.addAll(vertexList.subList(0, lastIndexOfUnassociated));
 
 			// Check if the sequence has to be splitted
-			if (!split) {
+			if (!split || resetMsg.equals("")) {
 				for (Integer msg : shiftedEdgeList)
 					resultList += Utils.decodeMessage(msg, msgsIntegerMapping) + " ";
 

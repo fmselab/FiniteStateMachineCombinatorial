@@ -27,7 +27,7 @@ public class FTSTester {
 	}
 
 	public static void main(String[] args) {
-		generateTests("VendingMachine", "Idle", 2, Mode.ONLY_CONSTRAINT, ReparationMode.SKIP_ERROR, true,
+		generateTests("VendingMachine", "Idle", 2, Mode.STATES_COVERAGE, ReparationMode.SKIP_ERROR, true,
 				AUTOMATA_PER_BATCH, false, "");
 	}
 
@@ -36,7 +36,6 @@ public class FTSTester {
 			String resetMessage) {
 		// Configurations
 		String fsmFilePath = "data/" + systemName + "/" + systemName + ".sm";
-		String messageFile = "data/" + systemName + "/Messages.txt";
 		String fmPath = "data/" + systemName + "/" + systemName + ".xml";
 		String resultFile = "data/" + systemName + "/ResultFile_" + systemName + automatonsPerBatch + "_" + strength
 				+ ".txt";
@@ -59,9 +58,14 @@ public class FTSTester {
 			TestSuite ts = generator.generateTestSuite();
 
 			for (Test t : ts.getTests()) {
+				// Reset previously created structures
+				msgsMapping = HashBiMap.create();
+				automatonListForTRecognition = new ArrayList<>();
+				fullSystemAutomaton = new Automaton();
+
 				// Generate the automaton corresponding to the Feature Transition System
 				fullSystemAutomaton = FSMAutomatonBuilderWithCondition.buildFSMAutomatonFromSMC(msgsMapping, t,
-						messageFile, fsmFilePath, systemName);
+						fsmFilePath, systemName);
 
 				// Generate the list of tuples to be covered
 				automatonListForTRecognition = Utils.getAutomatonListForTRecognition(msgsMapping, strength,
@@ -86,11 +90,13 @@ public class FTSTester {
 					// Collecting and Conversion into the message format
 					sequences = new HashSet<String>(Utils.getSequencesForTransitionCoverage(initialState,
 							splitSequences, fsmFilePath, systemName, resetMessage));
+					Utils.createMessageSequences(new ArrayList<String>(sequences), msgsMapping, true, sequenceFile);
 					break;
 				case STATES_COVERAGE:
 					// Collecting and Conversion into the message format
 					sequences = new HashSet<String>(
 							Utils.getSequencesForStateCoverage(initialState, fsmFilePath, systemName));
+					Utils.createMessageSequences(new ArrayList<String>(sequences), msgsMapping, true, sequenceFile);
 					break;
 				}
 

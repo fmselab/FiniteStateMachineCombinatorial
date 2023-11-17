@@ -36,7 +36,7 @@ public class FSMAutomatonBuilderWithCondition extends FSMAutomatonBuilder {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Automaton buildFSMAutomatonFromSMC(BiMap<String, Character> msgsMapping, Test product, String messageFile,
+	public static Automaton buildFSMAutomatonFromSMC(BiMap<String, Character> msgsMapping, Test product,
 			String fsmFile, String projectName) throws IOException, IllegalAccessException, InvocationTargetException {
 
 		// Logger
@@ -55,8 +55,6 @@ public class FSMAutomatonBuilderWithCondition extends FSMAutomatonBuilder {
 		// Create the new automaton
 		HashSet<String> msgList = new HashSet<>();
 		ArrayList<FSMState> fsm = new ArrayList<>();
-		FileWriter fout = new FileWriter(messageFile);
-		BufferedWriter msgFile = new BufferedWriter(fout);
 		String startState, inMessage, endState, outMessage, condition;
 		char code = 64;
 
@@ -100,7 +98,6 @@ public class FSMAutomatonBuilderWithCondition extends FSMAutomatonBuilder {
 		// Write the messages file and build the mapping between extended messages and
 		// single char
 		for (String s : msgList) {
-			msgFile.write(s.toUpperCase() + "\n");
 			while (code == ')' || code == '(' || code == '*' || code == '?' || code == '&' || code == '|' || code == '+'
 					|| code == '@' || code == '}' || code == '{' || code == '~' || code == '^' || code == '['
 					|| code == ']' || code == '-' || code == '.' || code == '#' || code == '\\' || code == '_'
@@ -111,10 +108,6 @@ public class FSMAutomatonBuilderWithCondition extends FSMAutomatonBuilder {
 		}
 
 		logger.debug("END: CREATING THE FINAL STATE MACHINE\n");
-
-		// Close all the streams
-		msgFile.close();
-		fout.close();
 
 		// Return the built automaton
 		return createAutomatonFromFSM(fsm, msgsMapping);
