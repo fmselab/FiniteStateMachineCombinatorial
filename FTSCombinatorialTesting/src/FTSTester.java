@@ -27,7 +27,7 @@ public class FTSTester {
 	}
 
 	public static void main(String[] args) {
-		generateTests("VendingMachine", "Idle", 2, Mode.STATES_COVERAGE, ReparationMode.SKIP_ERROR, true,
+		generateTests("VendingMachine", "Idle", 2, Mode.ONLY_CONSTRAINT, ReparationMode.SKIP_ERROR, true,
 				AUTOMATA_PER_BATCH, false, "");
 	}
 
@@ -57,7 +57,15 @@ public class FTSTester {
 			BDDCITTestGenerator generator = new BDDCITTestGenerator(fm, strength);
 			TestSuite ts = generator.generateTestSuite();
 
+			int i = 0;
+			
+			System.out.println(ts.getTests());
+			
 			for (Test t : ts.getTests()) {
+				String thisResultFile = resultFile.replace(".txt", "_" + i + ".txt");
+				String thisSequenceFile = sequenceFile.replace(".txt", "_" + i + ".txt");
+				i++;
+				
 				// Reset previously created structures
 				msgsMapping = HashBiMap.create();
 				automatonListForTRecognition = new ArrayList<>();
@@ -78,29 +86,19 @@ public class FTSTester {
 					// Collecting and Conversion into the message format
 					sequences = new HashSet<String>(Utils.collecting(fullSystemAutomaton, automatonListForTRecognition,
 							useMonitoring, ConfigurationData.MAX_STATES_PER_AUTOMATA, automatonsPerBatch));
-					Utils.createMessageSequences(new ArrayList<String>(sequences), msgsMapping, true, sequenceFile);
+					Utils.createMessageSequences(new ArrayList<String>(sequences), msgsMapping, true, thisSequenceFile);
 					break;
 				case STANDARD_CIT:
 					// Collecting and Conversion into the message format
 					sequences = new HashSet<String>(Utils.sequencesStandardCIT(automatonListForTRecognition,
 							useMonitoring, automatonsPerBatch));
-					Utils.createMessageSequences(new ArrayList<String>(sequences), msgsMapping, true, sequenceFile);
+					Utils.createMessageSequences(new ArrayList<String>(sequences), msgsMapping, true, thisSequenceFile);
 					break;
-				case TRANSITIONS_COVERAGE:
-					// Collecting and Conversion into the message format
-					sequences = new HashSet<String>(Utils.getSequencesForTransitionCoverage(initialState,
-							splitSequences, fsmFilePath, systemName, resetMessage));
-					Utils.createMessageSequences(new ArrayList<String>(sequences), msgsMapping, true, sequenceFile);
-					break;
-				case STATES_COVERAGE:
-					// Collecting and Conversion into the message format
-					sequences = new HashSet<String>(
-							Utils.getSequencesForStateCoverage(initialState, fsmFilePath, systemName));
-					Utils.createMessageSequences(new ArrayList<String>(sequences), msgsMapping, true, sequenceFile);
+				default:
 					break;
 				}
 
-				Utils.extractStatistics(strength, false, generationMode, repairMode, automatonsPerBatch, resultFile,
+				Utils.extractStatistics(strength, useMonitoring, generationMode, repairMode, automatonsPerBatch, thisResultFile,
 						msgsMapping, automatonListForTRecognition, fullSystemAutomaton, start, sequences);
 			}
 
