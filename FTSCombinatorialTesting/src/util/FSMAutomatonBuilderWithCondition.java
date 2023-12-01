@@ -73,16 +73,26 @@ public class FSMAutomatonBuilderWithCondition extends FSMAutomatonBuilder {
 						outMessage = g.getActions().get(0).getName();
 						condition = g.getCondition();
 
-						// Evaluate the condition
-						Map<String, String> assignments = product.entrySet().stream().collect(
-								Collectors.toMap(Entry<String, String>::getKey, Entry<String, String>::getValue));
-						Map<String, Boolean> assignmentsBoolean = new HashMap<>();
-						assignments.entrySet().stream().forEach(entry -> {
-							assignmentsBoolean.put(entry.getKey(), Boolean.valueOf(entry.getValue()));
-						});
-						
-						if (MVEL.evalToBoolean(condition, assignmentsBoolean)) {
-							// Save the messages and the FSM
+						// Evaluate the condition if a specific product is given
+						if (product != null) {
+							Map<String, String> assignments = product.entrySet().stream().collect(
+									Collectors.toMap(Entry<String, String>::getKey, Entry<String, String>::getValue));
+							Map<String, Boolean> assignmentsBoolean = new HashMap<>();
+							assignments.entrySet().stream().forEach(entry -> {
+								assignmentsBoolean.put(entry.getKey(), Boolean.valueOf(entry.getValue()));
+							});
+							
+							if (MVEL.evalToBoolean(condition, assignmentsBoolean)) {
+								// Save the messages and the FSM
+								msgList.add(inMessage);
+								if (!outMessage.equals("no_response"))
+									msgList.add(outMessage);
+								fsm.add(new FSMState(startState, endState, inMessage, outMessage, condition));
+								logger.debug("Adding new state: " + startState + "(" + inMessage + ") -> " + endState + "("
+										+ outMessage + ")\n");
+							}
+						} else {
+							// Save the messages and the FSM without checking any condition
 							msgList.add(inMessage);
 							if (!outMessage.equals("no_response"))
 								msgList.add(outMessage);

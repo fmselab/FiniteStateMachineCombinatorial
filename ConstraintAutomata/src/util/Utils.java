@@ -89,7 +89,7 @@ public class Utils {
 	 */
 	public static void extractStatistics(int strength, boolean useMonitoring, Mode generationMode,
 			ReparationMode repairMode, int automataPerBatch, String resultFile, BiMap<String, Character> msgsMapping,
-			ArrayList<Automaton> automatonListForTRecognition, Automaton fullSystemAutomaton, long startTime, HashSet<String> sequences) {
+			ArrayList<Automaton> automatonListForTRecognition, Automaton fullSystemAutomaton, float time, HashSet<String> sequences) {
 		FileWriter fout;
 		try {
 			fout = new FileWriter(new File(resultFile).getAbsolutePath(), false);
@@ -124,7 +124,7 @@ public class Utils {
 					+ Utils.getNumberOfStatesCovered(sequences, fullSystemAutomaton, repairMode) + "\n");
 			fout.write("Number of covered transitions: "
 					+ Utils.getNumberOfTransitionsCovered(sequences, fullSystemAutomaton, repairMode) + "\n");
-			fout.write("Generation time [s]: " + ((System.currentTimeMillis() - startTime) / 1000F));
+			fout.write("Generation time [s]: " + time);
 			fout.close();
 		} catch (IOException e) {
 			e.printStackTrace();

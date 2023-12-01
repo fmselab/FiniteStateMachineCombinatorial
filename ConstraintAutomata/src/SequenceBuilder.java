@@ -81,7 +81,7 @@ public class SequenceBuilder {
 				System.out.println(s + " ");
 
 			Utils.extractStatistics(strength, useMonitoring, generationMode, repairMode, automataPerBatch, resultFile,
-					msgsMapping, automatonListForTRecognition, fullSystemAutomaton, start, sequences);
+					msgsMapping, automatonListForTRecognition, fullSystemAutomaton, ((System.currentTimeMillis() - start) / 1000F), sequences);
 		}
 	}
 
