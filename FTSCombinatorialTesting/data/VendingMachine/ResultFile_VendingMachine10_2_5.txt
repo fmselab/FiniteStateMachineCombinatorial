@@ -1,0 +1,21 @@
+==SUMMARY DATA==
+
+Sequence generation method: ONLY_CONSTRAINT
+Sequence repairing method: NONE
+Monitoring enabled: true
+-----Automatons per batch: 10
+Total number of transitions: 9
+Total number of states: 8
+Total number of events: 17
+Total number of pairs: 289
+Total number of valid pairs: 81
+-----Number of sequences: 9
+Max sequence length: 21
+Min sequence length: 7
+Avg sequence length: 16
+Total sequence length: 145
+Number of valid sequences: 9
+Number of covered pairs: 81
+Number of covered states: 8
+Number of covered transitions: 9
+Generation time [s]: 0.336
